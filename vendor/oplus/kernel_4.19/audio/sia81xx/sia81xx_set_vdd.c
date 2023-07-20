@@ -25,7 +25,6 @@
 #include "sia81xx_set_vdd.h"
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 extern int g_algo_is_v2;
 #endif /*OPLUS_BUG_COMPATIBILITY*/
 
@@ -76,7 +75,6 @@ typedef struct sia81xx_vdd_param {
 } __packed SIA81XX_VDD_PARAM;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 typedef struct sia81xx_vdd_msg_v2 {
 	uint32_t vdd;
 	uint32_t p0;
@@ -267,7 +265,6 @@ static void send_set_vdd_msg(
 	int ret = 0;
 	SIA81XX_VDD_PARAM param;
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	SIA81XX_VDD_PARAM_V2 param_v2;
 #endif /*OPLUS_BUG_COMPATIBILITY*/
 
@@ -279,7 +276,6 @@ static void send_set_vdd_msg(
 
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	if (g_algo_is_v2) {
 		param_v2.id = 66;
 		param_v2.msg_len = sizeof(SIA81XX_VDD_MSG_V2);

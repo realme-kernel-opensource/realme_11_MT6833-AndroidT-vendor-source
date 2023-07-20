@@ -4081,7 +4081,6 @@ void rlmDomainBuildCmdByConfigTable(struct ADAPTER *prAdapter,
 			struct CMD_SET_COUNTRY_CHANNEL_POWER_LIMIT *prCmd)
 {
 //#ifndef OPLUS_FEATURE_WIFI_CUSTOMER_NVRAM
-//#Lei.Zhang@CONNECTIVITY.WIFI.HARDWARE.FTM.1948379, Add for distinguish country power limit at runtime.
 /*
 #define PwrLmtConfHEBW160 g_rRlmPowerLimitConfigurationHEBW160
 */
@@ -4107,7 +4106,6 @@ void rlmDomainBuildCmdByConfigTable(struct ADAPTER *prAdapter,
     struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION *PwrLmtConf = g_rRlmPowerLimitConfiguration;
     struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE *PwrLmtConfHE = g_rRlmPowerLimitConfigurationHE;
     //#ifndef OPLUS_FEATURE_WIFI_CUSTOMER_NVRAM
-    //#Lei.Zhang@CONNECTIVITY.WIFI.HARDWARE.FTM.1948379, Add for distinguish country power limit at runtime.
     struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_HE_BW160 *PwrLmtConfHEBW160 = g_rRlmPowerLimitConfigurationHEBW160;
     //#endif
 #if (CFG_SUPPORT_WIFI_6G == 1)

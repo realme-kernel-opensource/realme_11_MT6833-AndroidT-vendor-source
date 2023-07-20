@@ -29,7 +29,6 @@
 #include "sia81xx_tuning_if.h"
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 extern int g_algo_is_v2;
 #endif /*OPLUS_BUG_COMPATIBILITY*/
 
@@ -171,7 +170,6 @@ static void delete_cal_module(struct file *filp)
 	struct cal_module_unit *module = NULL;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	if (g_algo_is_v2) {
 		module = is_file_exist((struct file *)0xff);
 	} else {
@@ -267,7 +265,6 @@ static unsigned long sia81xx_tuning_if_dev_type_open(uint32_t cal_id)
 	struct cal_module_unit *module = NULL;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	if (g_algo_is_v2) {
 		int ret = 0;
 		ret = record_cal_module(
@@ -291,7 +288,6 @@ static unsigned long sia81xx_tuning_if_dev_type_open(uint32_t cal_id)
 static int sia81xx_tuning_if_dev_type_close(unsigned long handle)
 {
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2022/01/17, for driver V1.1.5 to compatible with sixth alog V2 */
 	if (g_algo_is_v2) {
 		delete_cal_module((struct file *)0xff);
 	}
@@ -431,7 +427,6 @@ static ssize_t sia81xx_tuning_if_dev_write(struct file *fp,
 	pr_debug("[debug][%s] %s: run !! \r\n", LOG_FLAG, __func__);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	if (g_algo_is_v2) {
 		module = is_file_exist((struct file *)0xff);
 	} else {
@@ -461,7 +456,6 @@ static long sia81xx_tuning_if_dev_unlocked_ioctl(struct file *fp,
 		case CMD_SIA81XX_TUNING_IF_ADD_CAL_ID :
 		{
 #ifdef OPLUS_BUG_COMPATIBILITY
-			/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 			if (!g_algo_is_v2)
 #endif /*OPLUS_BUG_COMPATIBILITY*/
 
@@ -489,7 +483,6 @@ static long sia81xx_tuning_if_dev_unlocked_ioctl(struct file *fp,
 		case CMD_SIA81XX_TUNING_IF_RM_CAL_ID :
 		{
 #ifdef OPLUS_BUG_COMPATIBILITY
-			/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 			if (!g_algo_is_v2) {
 				delete_cal_module(fp);
 			}
@@ -504,7 +497,6 @@ static long sia81xx_tuning_if_dev_unlocked_ioctl(struct file *fp,
 			struct cal_module_unit *module = NULL;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-			/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 			if (g_algo_is_v2) {
 				module = is_file_exist((struct file *)0xff);
 			} else {
@@ -560,7 +552,6 @@ static int sia81xx_tuning_if_dev_close(struct inode *inode, struct file *fp)
 	pr_info("[ info][%s] %s: run !! \r\n", LOG_FLAG, __func__);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	if (!g_algo_is_v2) {
 		delete_cal_module(fp);
 	}

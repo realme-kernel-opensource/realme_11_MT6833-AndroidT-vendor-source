@@ -46,7 +46,6 @@ extern ProjectInfoCDTType_oldcdt *format;
 static ProjectInfoOCDT *g_project = NULL;
 static int newcdt = -1;
 
-/*Bin.Li@BSP.Bootloader.Bootflows, 2019/05/09, Add for diff manifest*/
 static const char* nfc_feature = "nfc_feature";
 static const char* feature_src = "/vendor/etc/nfc/com.oplus.nfc_feature.xml";
 

@@ -180,14 +180,11 @@ struct tfa_device {
 	char fw_itf_ver[4];          /* Firmware ITF version */
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
 	u32 min_mohms;
 	u32 max_mohms;
 
-	//YeWenliang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/02/04, Add for config new fw name
 	const char *fw_name;
 
-	/*Lisa.Wang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/01/18, Add for stereo spk*/
 	/* 0-left/top, 1-right/bottom, 0xff-default, not initialized */
 	u32 channel;
 	#endif /* OPLUS_BUG_COMPATIBILITY */

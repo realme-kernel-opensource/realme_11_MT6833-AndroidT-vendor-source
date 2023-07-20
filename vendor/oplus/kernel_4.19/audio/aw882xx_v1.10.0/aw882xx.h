@@ -22,8 +22,6 @@
 #define AW_I2C_RETRY_DELAY		5	/* 5 ms */
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2021/12/14, add for bin file load,
- *when remove odm/firmware in firmware_class.c*/
 /* #define ACF_BIN_NAME	"../../odm/firmware/aw882xx_acf.bin" */
 #define ACF_BIN_NAME	"aw882xx_acf.bin"
 #else
@@ -176,13 +174,11 @@ struct aw882xx {
 	struct delayed_work dc_work;
 	struct delayed_work fw_work;
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 	struct delayed_work check_work;
 	ktime_t last_fb;
 #endif /*CONFIG_OPLUS_FEATURE_MM_FEEDBACK*/
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/11, Add for calibration*/
 	struct proc_dir_entry *dbg_dir;
 #endif /*OPLUS_ARCH_EXTENDS*/
 

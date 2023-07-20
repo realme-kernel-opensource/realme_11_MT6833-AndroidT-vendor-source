@@ -1503,7 +1503,6 @@ static struct kbase_va_region *kbase_mem_from_umm(struct kbase_context *kctx,
 
 	if (IS_ERR_OR_NULL(dma_buf)) {
 		/*#ifdef OPLUS_BUG_STABILITY*/
-		//ZhangLijun@MULTIMEDIA.DISPLAY.GPU, 2022/10/18, print fd when dma_buf_get fail
 		dev_warn(kctx->kbdev->dev, "%s dma_buf_get fail fd=%d\n", __func__, fd);
 		/*#endif OPLUS_BUG_STABILITY*/
 		return NULL;

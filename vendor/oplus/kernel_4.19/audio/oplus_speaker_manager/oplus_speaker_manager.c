@@ -7,7 +7,6 @@
 **
 ** Version: 1.0
 ** Date created: 11/27/2020
-** Author: Jianqing.Liao@MULTIMEDIA.AUDIODRIVER
 **
 ** --------------------------- Revision History: --------------------------------
 **    <author>       <date>          <desc>

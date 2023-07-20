@@ -54,13 +54,11 @@
 #endif
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 #include "../oplus_speaker_manager/oplus_speaker_manager_platform.h"
 #include "../oplus_speaker_manager/oplus_speaker_manager_codec.h"
 #endif /* CONFIG_SND_SOC_OPLUS_PA_MANAGER */
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 void *oplus_pa_aw_node = NULL;
 uint8_t aw_pa_mode = AW87XXX_MUSIC_MODE;
 #endif /* CONFIG_SND_SOC_OPLUS_PA_MANAGER */
@@ -82,8 +80,6 @@ enum {
  * aw87xxx variable
  ************************************************************************/
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2021/11/19, add for bin file load,
- *when remove odm/firmware in firmware_class.c*/
 static char aw87xxx_cfg_name[AW87XXX_MODE_MAX][AW87XXX_CFG_NAME_MAX] = {
 	{"../../odm/firmware/awinic/aw87xxx_pid_xx_off_"},
 	{"../../odm/firmware/awinic/aw87xxx_pid_xx_music_"},
@@ -110,14 +106,12 @@ static char aw87xxx_support_product[][AW87XXX_PRODUCT_NAME_LEN] = {
 	{"aw87519"},
 	{"aw87559"},
 };
-/* Sidong.Zhao@ODM_WT.mm.audiodriver.Codec, 2021/03/24, add code for speaker low voltage*/
 int aw87xxx_spk_low_voltage_status = 0;
 
 static LIST_HEAD(g_aw87xxx_device_list);
 static DEFINE_MUTEX(g_aw87xxx_mutex_lock);
 static unsigned int g_aw87xxx_dev_cnt;
 
-/* Xuewen.Yang@MM.AudioDriver.Machine 2021/04/09,add for speaker pa aw87359 flag */
 int is_aw_chip = 0;
 
 /**********************************************************
@@ -261,7 +255,6 @@ static int aw87xxx_reg_cnt_update(struct aw87xxx *aw87xxx,
 		    __func__, scene_param->scene_mode);
 	if (!aw87xxx->hwen_flag)
 		aw87xxx_hw_on(aw87xxx);
-/* Sidong.Zhao@ODM_WT.mm.audiodriver.Codec, 2021/03/24, add code for speaker low voltage*/
 	mutex_lock(&aw87xxx->lock);
 	if (scene_param->cfg_update_flag == AW87XXX_CFG_OK) {
 		/*send firmware data */
@@ -306,7 +299,6 @@ static int aw87xxx_reg_cnt_update(struct aw87xxx *aw87xxx,
 	return 0;
 }
 
-/* Sidong.Zhao@ODM_WT.mm.audiodriver.Codec, 2021/03/24, add code for speaker low voltage*/
 void aw87xxx_audio_spk_low_voltage_status(int bStatus)
 {
 	struct aw87xxx_scene_param *scene_param;
@@ -441,7 +433,6 @@ int aw87xxx_audio_scene_load(uint8_t mode, int32_t channel)
 }
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 void aw87xxx_enable_pa(int enable, int mode, int32_t channel) {
 	pr_info("%s: enable = %d, mode = %d, channel = %d\n", __func__, enable, mode, channel);
 	if(enable) {
@@ -1392,8 +1383,6 @@ static void aw87xxx_parse_dt(struct aw87xxx *aw87xxx, struct device_node *np)
 static int aw87xxx_update_cfg_name(struct aw87xxx *aw87xxx)
 {
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2021/11/19, add for bin file load,
- *when remove odm/firmware in firmware_class.c*/
 	char aw87xxx_head[] = { "../../odm/firmware/awinic/aw87xxx_pid_" };
 #else
 	char aw87xxx_head[] = { "awinic/aw87xxx_pid_" };
@@ -1470,7 +1459,6 @@ static int aw87xxx_read_chipid(struct aw87xxx *aw87xxx)
 		aw_dev_info(aw87xxx->dev,
 			"%s: the chip is aw87xxx chipid=0x%x\n",
 			__func__, reg_val);
-/* Xuewen.Yang@MM.AudioDriver.Machine 2021/04/09,add for speaker pa aw87359 flag */
 		if((reg_val == AW87XXX_CHIPID_39) || (reg_val == AW87XXX_CHIPID_59) || (reg_val == AW87XXX_CHIPID_69) || (reg_val == AW87XXX_CHIPID_5A)){
 			is_aw_chip = 1;
 			aw_dev_info(aw87xxx->dev,
@@ -1567,7 +1555,6 @@ static int aw87xxx_i2c_probe(struct i2c_client *client,
 	int ret = -1;
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 	struct oplus_speaker_device *speaker_device = NULL;
 	bool new_speaker_device_node = false;
 	uint32_t real_addr = 0;
@@ -1628,7 +1615,6 @@ static int aw87xxx_i2c_probe(struct i2c_client *client,
 			   "%s: aw873xx_read_chipid failed ret=%d\n", __func__,
 			   ret);
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2021/12/15, add for AW87xxx
 		aw87xxx_hw_off(aw87xxx);
 		aw_dev_err(&client->dev,
 			   "%s: set aw87xxx_hw_off\n", __func__);
@@ -1663,7 +1649,6 @@ static int aw87xxx_i2c_probe(struct i2c_client *client,
 	spin_lock_init(&aw87xxx->bin_parse_lock);
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 	pr_info("%s():,oplus_register start\r\n", __func__);
 
 	speaker_device = get_speaker_dev(aw87xxx->pa_channel + 1);
@@ -1721,7 +1706,6 @@ static int aw87xxx_i2c_probe(struct i2c_client *client,
 		devm_gpio_free(&client->dev, aw87xxx->reset_gpio);
  exit_gpio_request_failed:
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2021/12/15, add for AW87xxx
 	i2c_set_clientdata(client, NULL);
 	pr_err("%s, %d, check id failed! set its client to NULL!", __func__, __LINE__);
 #endif
@@ -1737,7 +1721,6 @@ static int aw87xxx_i2c_remove(struct i2c_client *client)
 	struct aw87xxx *aw87xxx = i2c_get_clientdata(client);
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 	oplus_speaker_pa_remove(oplus_pa_aw_node);
 #endif /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
 

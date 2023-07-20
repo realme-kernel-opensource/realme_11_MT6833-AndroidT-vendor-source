@@ -64,7 +64,6 @@ void binder_trans_handler(void *data, struct binder_proc *target_proc,
 	int i = 0;
 	int j = 0;
 
-	/*Kun.Zhou@ANDROID.RESCONTROL, 2019/09/23, add for hans freeze manager*/
 	if (!(tr->flags & TF_ONE_WAY) /*report sync binder call*/
 		&& target_proc
 		&& (NULL != target_proc->tsk)
@@ -146,7 +145,6 @@ void binder_reply_handler(void *data, struct binder_proc *target_proc,
 				struct binder_thread *thread,
 				struct binder_transaction_data *tr)
 {
-	/*Kun.Zhou@ANDROID.RESCONTROL, 2019/09/23, add for hans freeze manager*/
 	/*only sync binder call has BC_REPLY*/
 	if (target_proc
 		&& (NULL != target_proc->tsk)

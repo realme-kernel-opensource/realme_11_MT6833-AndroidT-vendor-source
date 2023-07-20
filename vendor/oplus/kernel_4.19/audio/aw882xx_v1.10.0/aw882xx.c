@@ -31,9 +31,7 @@
 #include <linux/uaccess.h>
 #include <linux/vmalloc.h>
 #ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/11, Add for calibration*/
 #include <linux/proc_fs.h>
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.PA, 2022/02/17, Add for spk reboot*/
 static int s_speaker_reboot = 0;
 #endif /*OPLUS_ARCH_EXTENDS*/
 
@@ -44,7 +42,6 @@ static int s_speaker_reboot = 0;
 #include "aw_spin.h"
 
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 #include <soc/oplus/system/oplus_mm_kevent_fb.h>
 #endif
 
@@ -55,7 +52,6 @@ static int s_speaker_reboot = 0;
 #define AW_READ_CHIPID_RETRY_DELAY	5	/* 5 ms */
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/11, Add for calibration*/
 #define MAX_CONTROL_NAME        48
 #endif /*OPLUS_ARCH_EXTENDS*/
 
@@ -278,7 +274,6 @@ static int aw882xx_startup(struct snd_pcm_substream *substream,
 		aw_componet_codec_ops.codec_get_drvdata(codec);
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/03/30, Add for dual spk force mute*/
 	if (aw882xx->speaker_force_mute) {
 		aw882xx->allow_pw = false;
 	}
@@ -377,7 +372,6 @@ static void aw882xx_start_pa(struct aw882xx *aw882xx)
 	if (aw882xx->fw_status == AW_DEV_FW_OK) {
 		if (aw882xx->allow_pw == false) {
 			#ifdef OPLUS_ARCH_EXTENDS
-			/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/02/10, Add for spk force mute*/
 			aw_dev_info(aw882xx->dev, "Speaker_L or Speaker_R force mute, muting...");
 			#endif /* OPLUS_ARCH_EXTENDS */
 			aw_dev_info(aw882xx->dev, "dev can not allow power ");
@@ -418,7 +412,6 @@ static void aw882xx_start_pa(struct aw882xx *aw882xx)
 }
 
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 #define AW882XX_CHECK_WORK_DELAY           (6*HZ)
 #define OPLUS_AUDIO_EVENTID_SMARTPA_ERR    10041
 #define OPLUS_AUDIO_EVENTID_SPK_ERR        10042
@@ -660,7 +653,6 @@ static int aw882xx_mute(struct snd_soc_dai *dai, int mute, int stream)
 	aw_dev_info(aw882xx->dev, "mute state=%d", mute);
 
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 	if (mute) {
 		if (g_chk_err) {
 			aw882xx_check_status_reg(aw882xx);
@@ -698,7 +690,6 @@ static int aw882xx_mute(struct snd_soc_dai *dai, int mute, int stream)
 #endif /* OPLUS_ARCH_EXTENDS */
 
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 		if (g_chk_err) {
 			queue_delayed_work(aw882xx->work_queue,
 					&aw882xx->check_work, AW882XX_CHECK_WORK_DELAY);
@@ -870,7 +861,6 @@ static int aw882xx_switch_set(struct snd_kcontrol *kcontrol,
 	if (aw882xx->pstream) {
 		if (ucontrol->value.integer.value[0] == 0) {
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 /*MTK platform set aw_dev_0_switch before pcm close, so check reg here rather than aw882xx_mute */
 			if (g_chk_err) {
 				aw882xx_check_status_reg(aw882xx);
@@ -887,7 +877,6 @@ static int aw882xx_switch_set(struct snd_kcontrol *kcontrol,
 			aw_dev_info(aw882xx->dev, "stop pa");
 		} else {
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 			cancel_delayed_work_sync(&aw882xx->check_work);
 #endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
 			cancel_delayed_work_sync(&aw882xx->start_work);
@@ -1124,7 +1113,6 @@ static void aw882xx_dc_prot_work(struct work_struct *work)
 			dc_status = aw_dev_dc_status(aw882xx->aw_pa);
 			if (dc_status > 0) {
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 				g_chk_err = false;
 				cancel_delayed_work_sync(&aw882xx->check_work);
 #endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
@@ -1537,7 +1525,6 @@ static struct snd_kcontrol_new aw882xx_controls[] = {
 };
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/02/17, Add for spk force mute and spk reboot*/
 static char const *spk_l_mute_ctrl_text[] = {"Off", "On"};
 static char const *spk_r_mute_ctrl_text[] = {"Off", "On"};
 static char const *spk_l_reboot_ctrl_text[] = {"Off", "On"};
@@ -1595,7 +1582,6 @@ static int aw882xx_spk_l_mute_ctrl_put(struct snd_kcontrol *kcontrol,
 		if (ucontrol->value.integer.value[0] == 1) {
 			aw_dev_info(aw882xx->dev, "AW_L operating, setting mute state...");
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 			g_chk_err = false;
 			cancel_delayed_work_sync(&aw882xx->check_work);
 #endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
@@ -1665,7 +1651,6 @@ static int aw882xx_spk_r_mute_ctrl_put(struct snd_kcontrol *kcontrol,
 		if (ucontrol->value.integer.value[0] == 1) {
 			aw_dev_info(aw882xx->dev, "AW_R operating, setting mute state...");
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 			g_chk_err = false;
 			cancel_delayed_work_sync(&aw882xx->check_work);
 #endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
@@ -1724,7 +1709,6 @@ static int aw882xx_spk_reboot_ctrl_put(struct snd_kcontrol *kcontrol,
 		if (ucontrol->value.integer.value[0] == 1) {
 			aw_dev_info(aw882xx->dev, "AW rebooting, setting mute state...");
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 			g_chk_err = false;
 			cancel_delayed_work_sync(&aw882xx->check_work);
 #endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
@@ -1796,14 +1780,12 @@ static void aw882xx_add_codec_controls(struct aw882xx *aw882xx)
 				aw882xx_spin_control, ARRAY_SIZE(aw882xx_spin_control));
 
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-	/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 	aw_componet_codec_ops.add_codec_controls(aw882xx->codec,
 			&aw882xx_check_feedback[0], ARRAY_SIZE(aw882xx_check_feedback));
 #endif
 }
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/02/10, Add for spk force mute*/
 static void aw882xx_add_codec_mute_controls(struct aw882xx *aw882xx)
 {
 	if (aw882xx->aw_pa->channel == 0x00) {
@@ -1968,7 +1950,6 @@ static int aw882xx_codec_probe(aw_snd_soc_codec_t *aw_codec)
 	INIT_DELAYED_WORK(&aw882xx->fw_work, aw882xx_request_firmware);
 
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 	aw882xx->last_fb = 0;
 	INIT_DELAYED_WORK(&aw882xx->check_work, aw882xx_check_work);
 #endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
@@ -1979,7 +1960,6 @@ static int aw882xx_codec_probe(aw_snd_soc_codec_t *aw_codec)
 		aw882xx_add_codec_controls(aw882xx);
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/03/30, Add for dual spk force mute*/
 	aw882xx_add_codec_mute_controls(aw882xx);
 #endif /* OPLUS_ARCH_EXTENDS */
 
@@ -2167,7 +2147,6 @@ static struct aw882xx *aw882xx_malloc_init(struct i2c_client *i2c)
 	aw882xx->allow_pw = true;
 	aw882xx->work_queue = NULL;
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/03/30, Add for dual spk force mute*/
 	aw882xx->speaker_force_mute = false;
 #endif
 
@@ -2829,7 +2808,6 @@ static struct attribute_group aw882xx_attribute_group = {
 };
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/11, Add for calibration range*/
 static ssize_t aw882xx_dbgfs_range_read(struct file *file,
 				char __user *user_buf, size_t count,
 				loff_t *ppos)
@@ -2857,7 +2835,6 @@ range_err:
 	return ret;
 }
 
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration */
 extern ssize_t oplus_aw_cali_attr_show_re(struct device *dev, char *buf);
 static ssize_t aw882xx_dbgfs_check_re_show(struct file *file,
 				char __user *user_buf, size_t count,
@@ -2913,14 +2890,12 @@ cali_re_err:
 	return ret;
 
 }
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/11,Add for calibration range*/
 static const struct file_operations aw882xx_dbgfs_range_fops = {
 	.open = simple_open,
 	.read = aw882xx_dbgfs_range_read,
 	.llseek = default_llseek,
 };
 
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/11,Add for checking re_show*/
 const struct file_operations aw882xx_dbgfs_re_show_fops = {
 	.open = simple_open,
 	.read = aw882xx_dbgfs_check_re_show,
@@ -2942,7 +2917,6 @@ static void aw882xx_debug_init(struct aw882xx *aw882xx, struct i2c_client *i2c)
 					&aw882xx_dbgfs_range_fops, i2c);
 	proc_create_data("re_show", S_IRUGO, aw882xx->dbg_dir,
 					&aw882xx_dbgfs_re_show_fops, i2c);
-	/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration */
 	proc_create_data("cali_re", S_IRUGO, aw882xx->dbg_dir,
 					&aw882xx_dbgfs_cali_re_fops, i2c);
 }
@@ -3030,7 +3004,6 @@ static int aw882xx_i2c_probe(struct i2c_client *i2c,
 	mutex_unlock(&g_aw882xx_lock);
 	aw_dev_info(&i2c->dev, "dev_cnt %d", g_aw882xx_dev_cnt);
 #ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/11, Add for calibration*/
 	aw882xx_debug_init(aw882xx,i2c);
 #endif /*OPLUS_ARCH_EXTENDS*/
 	return ret;
@@ -3087,7 +3060,6 @@ static void aw882xx_i2c_shutdown(struct i2c_client *i2c)
 	struct aw882xx *aw882xx = i2c_get_clientdata(i2c);
 
 #if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-/*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2022/02/15, Add for smartpa err feedback.*/
 	g_chk_err = false;
 	cancel_delayed_work_sync(&aw882xx->check_work);
 #endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */

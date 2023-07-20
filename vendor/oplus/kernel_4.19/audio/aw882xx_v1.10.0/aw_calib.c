@@ -51,7 +51,6 @@ static DEFINE_MUTEX(g_cali_lock);
 #ifdef AW_CALI_STORE_EXAMPLE
  /*write cali to persist file example*/
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration*/
 #define AWINIC_CALI_FILE  "/mnt/vendor/persist/media/aw_cali.bin"
 #else
 #define AWINIC_CALI_FILE  "/mnt/vendor/persist/factory/audio/aw_cali.bin"
@@ -1098,7 +1097,6 @@ static ssize_t aw_cali_attr_re_show(struct device *dev,
 }
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration*/
 ssize_t oplus_aw_cali_attr_re_show(struct device *dev, char *buf)
 {
 	return aw_cali_attr_re_show(dev, NULL, buf);
@@ -1148,7 +1146,6 @@ static ssize_t aw_cali_attr_f0_show(struct device *dev,
 }
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration*/
 int aw882xx_load_re_for_test(int32_t chan, int32_t *re)
 {
     int ret = 0, cali_re;
@@ -1222,7 +1219,6 @@ static ssize_t aw_cali_attr_show_re(struct device *dev,
 }
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration*/
 ssize_t oplus_aw_cali_attr_show_re(struct device *dev, char *buf)
 {
 	return aw_cali_attr_show_re(dev, NULL, buf);
@@ -1285,7 +1281,6 @@ static DEVICE_ATTR(cali_re, S_IRUGO | S_IWUSR,
 static DEVICE_ATTR(cali_f0, S_IRUGO | S_IWUSR,
 	aw_cali_attr_f0_show, aw_cali_attr_f0_store);
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration*/
 /*show cali_origin*/
 static DEVICE_ATTR(origin_re_show, S_IRUGO,
 	aw_origin_re_show, NULL);
@@ -1309,7 +1304,6 @@ static struct attribute *aw_cali_attr[] = {
 	&dev_attr_cali_re.attr,
 	&dev_attr_cali_f0.attr,
 #ifdef OPLUS_ARCH_EXTENDS
-/*Tao.Ban@MULTIMEDIA.AUDIODRIVER.FTM, 2022/01/18, Add for calibration*/
 	&dev_attr_origin_re_show.attr,
 	&dev_attr_range_re_show.attr,
 #endif /*OPLUS_ARCH_EXTENDS*/

@@ -26,7 +26,6 @@
 #include "tfa_internal.h"
 
 #ifdef OPLUS_ARCH_EXTENDS
-//Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.FEATURE, 2020/06/26, use proc fs to replace debug fs
 #undef CONFIG_DEBUG_FS
 #endif /* OPLUS_ARCH_EXTENDS */
 #ifdef CONFIG_DEBUG_FS
@@ -42,7 +41,6 @@
 #define CONFIG_TFA9874_NONDSP_STEREO
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA,*/
 /* 2018/04/20, Add for resource*/
 #include <linux/regulator/consumer.h>
 #endif /* OPLUS_BUG_COMPATIBILITY */
@@ -51,7 +49,6 @@
 #include "tfa98xx_tfafieldnames.h"
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, add for codec */
 #include <linux/proc_fs.h>
 //#include <soc/oplus/system/oplus_project.h>
 
@@ -59,9 +56,7 @@ struct tfa98xx *tfa98xx_whole_v6;
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
  #ifdef OPLUS_ARCH_EXTENDS
-// Yongpei.Yao@PSW.MM.AUDIODRIVER.PA, 2020/10/22, Add for spk force mute
 static int s_speaker_force_mute = 0;
-// Yongpei.Yao@PSW.MM.AUDIODROVER.PA, 2021/03/11, mute pa when calibration fail
 extern bool g_speaker_resistance_fail;
 #endif /* OPLUS_ARCH_EXTENDS */
 
@@ -108,15 +103,12 @@ static int tfa98xx_kmsg_regs;
 static int tfa98xx_ftrace_regs;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-//Jianqing.Liao@PSW.MM.AudioDrvier,if impedance < 4ohm, use defalue value 6ohm
 static int tfa98xx_factory_flag = 0;
 #endif
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-//xiang.fei@PSW.MM.AudioDriver.HAL, 2019/03/26,
 //Modify for multi-project baseline
 //static char fw_name[100] = {0};
-//Tao.Ban@MULTIMEDIA.AUDIODRIVER.PA, 2021/10/08, remove vendor/firmware cnt.
 //==>/vendor/firmware/../../odm/firmware/tfa98xx.cnt
 static char *fw_name = "../../odm/firmware/tfa98xx.cnt";
 module_param(fw_name, charp, 0644);
@@ -161,15 +153,11 @@ static enum Tfa98xx_Error tfa9874_calibrate(struct tfa98xx *tfa98xx,
 
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
 #define SMART_PA_RANGE_DEFAULT_MIN (5000)
 #define SMART_PA_RANGE_DEFAULT_MAX (7800)
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.954616,
- * 2017/01/03, Add for get spk version
- */
 static bool is_tfa98xx_series(int rev)
 {
 	bool ret = false;
@@ -237,7 +225,6 @@ static int ftm_spk_rev_put(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-//Jianqing.Liao@PSW.MM.AudioDrvier,if impedance < 4ohm, use defalue value 6ohm
 static int ftm_spk_ftm_get(struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
@@ -264,14 +251,12 @@ static const struct soc_enum ftm_spk_ftm_enum =
 static const struct snd_kcontrol_new ftm_spk_rev_controls[] = {
 	SOC_ENUM_EXT("SPK_Pa Revision", ftm_spk_rev_enum,
 			ftm_spk_rev_get, ftm_spk_rev_put),
-//Jianqing.Liao@PSW.MM.AudioDrvier,if impedance < 4ohm, use defalue value 6ohm
 	SOC_ENUM_EXT("SPK_Pa Factory mode", ftm_spk_ftm_enum,
 			ftm_spk_ftm_get, ftm_spk_ftm_put),
 };
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
 #ifdef OPLUS_ARCH_EXTENDS
-// Yongpei.Yao@PSW.MM.AUDIODRIVER.PA, 2020/10/20, Add for spk force mute
 static int s_speaker_reboot = 0;
 static char const *spk_reboot_ctrl_text[] = {"Off", "On"};
 static const struct soc_enum spk_reboot_ctrl_enum =
@@ -313,7 +298,6 @@ static const struct snd_kcontrol_new tfa98xx_snd_control_spk_reboot[] = {
 #endif /* OPLUS_ARCH_EXTENDS */
 
 #ifdef OPLUS_ARCH_EXTENDS
-// Yongpei.Yao@PSW.MM.AUDIODRIVER.PA, 2020/10/20, Add for spk force mute
 static char const *spk_mute_ctrl_text[] = {"Off", "On"};
 static const struct soc_enum spk_mute_ctrl_enum =
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(spk_mute_ctrl_text), spk_mute_ctrl_text);
@@ -410,7 +394,6 @@ static const struct tfa98xx_rate rate_to_fssel[] = {
 };
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, add for ftm */
 unsigned short tfa98xx_vol_value;
 static int tfa98xx_volume_get(struct snd_kcontrol *kcontrol,
 			      struct snd_ctl_elem_value *ucontrol)
@@ -445,7 +428,6 @@ static int tfa98xx_volume_set(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-/* Zhao.Pan@MM.AudioDriver.SmartPA, 2020/01/13, add for analog volume */
 unsigned int g_tfa98xx_ana_vol = 16;
 static int tfa98xx_ana_volume_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
 {
@@ -537,7 +519,6 @@ static enum tfa_error tfa98xx_write_re25(struct tfa_device *tfa, int value)
 }
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1226731, 2018/05/12, Add for FTM*/
 #ifdef CONFIG_DEBUG_FS
 static  struct dentry *tfa98xx_debug_entry;
 #endif
@@ -605,7 +586,6 @@ enum Tfa98xx_Error check_hw_power(struct tfa_device* tfa)
     }
 }
 #if defined(OPLUS_BUG_COMPATIBILITY)
-/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 static enum Tfa98xx_Error tfa9874_calibrate(struct tfa98xx *tfa98xx_cal, int *speakerImpedance, bool b_aging)
 {
 	enum Tfa98xx_Error err;
@@ -938,7 +918,6 @@ static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx,
 	ktime_t start_time=0, stop_time;
 	u64 delta_time;
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1226731, 2018/05/12, Add for FTM*/
 	int ready = 0;
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -983,7 +962,6 @@ static enum tfa_error tfa98xx_tfa_start(struct tfa98xx *tfa98xx,
 	tfa98xx_interrupt_enable(tfa98xx, true);
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1226731, 2018/05/12, Add for FTM*/
 	/*10h bit13/bit6(AREFS/CLKS)*/
 	if (ftm_mode == BOOT_MODE_FACTORY) {
 		tfa98xx_dsp_system_stable(tfa98xx->tfa, &ready);
@@ -1111,7 +1089,6 @@ static void __tfa98xx_inputdev_check_register(struct tfa98xx *tfa98xx,
 
 	for (i = 0; i < tfa_cnt_get_dev_nprof(tfa98xx->tfa); i++) {
 		#ifdef OPLUS_ARCH_EXTENDS
-		//Chunyu.xie@Multimedia.AudioDriver.SmartPA 2022/06/06 fix coverity
 		char* profile_name = tfa_cont_profile_name(tfa98xx, i);
 		if ((profile_name != NULL) && strstr(profile_name, ".tap")) {
 			tap_profile = true;
@@ -1350,7 +1327,6 @@ static ssize_t tfa98xx_dbgfs_start_set(struct file *file,
 	return count;
 }
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12, Add for speaker resistance*/
 static int tfa98xx_speaker_recalibration(struct tfa_device *tfa,
 					 int *speakerImpedance)
 {
@@ -1400,9 +1376,6 @@ static ssize_t tfa98xx_dbgfs_r_read(struct file *file,
 	uint16_t status;
 	int ret;
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12
-	 * Modify for speaker resistance
-	 */
 	int calibrate_done = 0;
 	int speakerImpedance = 0;
 	#endif /* OPLUS_BUG_COMPATIBILITY */
@@ -1423,9 +1396,6 @@ static ssize_t tfa98xx_dbgfs_r_read(struct file *file,
 		tfa9874_calibrate(tfa98xx, &speakerImpedance, false);
 	} else {
 		#ifdef OPLUS_BUG_COMPATIBILITY
-		/* xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12
-		 * Modify for speaker resistance
-		 */
 		ret = tfaRunSpeakerCalibration_result(tfa98xx->tfa,
 						      &calibrate_done);
 		#else /* OPLUS_BUG_COMPATIBILITY */
@@ -1436,16 +1406,10 @@ static ssize_t tfa98xx_dbgfs_r_read(struct file *file,
 			pr_err("[0x%x] calibration failed\n",
 				tfa98xx->i2c->addr);
 			#ifndef OPLUS_BUG_COMPATIBILITY
-			/* Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2018/07/23
-			 * Delete for speaker resistance
-			 */
 			goto r_c_err;
 			#endif /* OPLUS_BUG_COMPATIBILITY */
 		}
 		#ifdef OPLUS_BUG_COMPATIBILITY
-		/* xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12
-		 * Add for speaker resistance
-		 */
 		if (calibrate_done == 1) {
 			tfa98xx_speaker_recalibration(tfa98xx->tfa,
 						      &speakerImpedance);
@@ -1461,9 +1425,6 @@ static ssize_t tfa98xx_dbgfs_r_read(struct file *file,
 	}
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* xiang.fei@PSW.MM.AudioDriver.Codec, 2018/03/12
-	 * Modify for speaker resistance
-	 */
 	ret = snprintf(str, PAGE_SIZE, " Prim:%d mOhms, Sec:%d mOhms\n",
 					speakerImpedance,
 					tfa98xx->tfa->mohm[1]);
@@ -1495,7 +1456,6 @@ r_c_err:
 }
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
 static ssize_t tfa98xx_dbgfs_range_read(struct file *file,
 				char __user *user_buf, size_t count,
 				loff_t *ppos)
@@ -1527,7 +1487,6 @@ static ssize_t tfa98xx_dbgfs_range_read(struct file *file,
 		goto range_err;
 	}
 	#ifdef OPLUS_ARCH_EXTENDS
-	//Xiong.H@Multimedia.AudioDriver.SmartPA 2022/06/07 fix coverity
 	ret = snprintf(str, PAGE_SIZE, " Min:%u mOhms, Max:%u mOhms\n",
 		tfa98xx->tfa->min_mohms, tfa98xx->tfa->max_mohms);
 	#else
@@ -1544,7 +1503,6 @@ range_err:
 	return ret;
 }
 
-/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/08/29, Add for aging calibration*/
 static ssize_t tfa98xx_dbgfs_r_aging_read(struct file *file,
 				char __user *user_buf, size_t count,
 				loff_t *ppos)
@@ -1596,7 +1554,6 @@ r_c_err:
 
 }
 
-/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/08/29, Add for getting impedance*/
 static ssize_t tfa98xx_dbgfs_r_impedance_read(struct file *file,
 				char __user *user_buf, size_t count,
 				loff_t *ppos)
@@ -1643,7 +1600,6 @@ r_c_err:
 
 }
 
-/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/08/29, Add for checking calibrated or not*/
 static ssize_t tfa98xx_dbgfs_r_calibrated_read(struct file *file,
 				char __user *user_buf, size_t count,
 				loff_t *ppos)
@@ -1867,7 +1823,6 @@ static ssize_t tfa98xx_dbgfs_rpc_read(struct file *file,
 	if (buffer == NULL)
 		return -ENOMEM;
 	#ifdef OPLUS_ARCH_EXTENDS
-	//Chunyu.xie@Multimedia.AudioDriver.SmartPA 2022/06/06 fix coverity 181085
 	memset((void *)buffer, 0, count);
 	#endif
 
@@ -2048,25 +2003,21 @@ static const struct file_operations tfa98xx_dbgfs_r_fops = {
 };
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
 static const struct file_operations tfa98xx_dbgfs_range_fops = {
 	.open = simple_open,
 	.read = tfa98xx_dbgfs_range_read,
 	.llseek = default_llseek,
 };
-/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/31, Add for aging calibration*/
 static const struct file_operations tfa98xx_dbgfs_r_aging_fops = {
 	.open = simple_open,
 	.read = tfa98xx_dbgfs_r_aging_read,
 	.llseek = default_llseek,
 };
-/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/31, Add for getting impedance*/
 static const struct file_operations tfa98xx_dbgfs_r_impedance_fops = {
 	.open = simple_open,
 	.read = tfa98xx_dbgfs_r_impedance_read,
 	.llseek = default_llseek,
 };
-/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/31, Add for checking calibrated or not*/
 static const struct file_operations tfa98xx_dbgfs_r_calibrated_fops = {
 	.open = simple_open,
 	.read = tfa98xx_dbgfs_r_calibrated_read,
@@ -2123,7 +2074,6 @@ static void tfa98xx_debug_init(struct tfa98xx *tfa98xx, struct i2c_client *i2c)
 			    i2c,
 			    &tfa98xx_dbgfs_r_fops);
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
 	debugfs_create_file("range", S_IRUGO, tfa98xx->dbg_dir,
 						i2c, &tfa98xx_dbgfs_range_fops);
 	#endif /* OPLUS_BUG_COMPATIBILITY */
@@ -2158,7 +2108,6 @@ static void tfa98xx_debug_init(struct tfa98xx *tfa98xx, struct i2c_client *i2c)
 	proc_create_data("R", S_IRUGO, tfa98xx->dbg_dir,
 					&tfa98xx_dbgfs_r_fops, i2c);
 #ifdef OPLUS_ARCH_EXTENDS
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
 	proc_create_data("range", S_IRUGO, tfa98xx->dbg_dir,
 					&tfa98xx_dbgfs_range_fops, i2c);
 #endif /* OPLUS_ARCH_EXTENDS */
@@ -2171,13 +2120,10 @@ static void tfa98xx_debug_init(struct tfa98xx *tfa98xx, struct i2c_client *i2c)
 	proc_create_data("rpc", S_IRUGO|S_IWUGO, tfa98xx->dbg_dir,
 					&tfa98xx_dbgfs_rpc_fops, i2c);
 #ifdef OPLUS_ARCH_EXTENDS
-	/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/31, Add for aging calibration*/
 	proc_create_data("r_aging", S_IRUGO, tfa98xx->dbg_dir,
 					&tfa98xx_dbgfs_r_aging_fops, i2c);
-	/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/31, Add for getting impedance*/
 	proc_create_data("r_impedance", S_IRUGO, tfa98xx->dbg_dir,
 					&tfa98xx_dbgfs_r_impedance_fops, i2c);
-	/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/31, Add for checking calibrated or not*/
 	proc_create_data("r_calibrated", S_IRUGO, tfa98xx->dbg_dir,
 					&tfa98xx_dbgfs_r_calibrated_fops, i2c);
 #endif
@@ -2542,7 +2488,6 @@ static int tfa98xx_set_profile(struct snd_kcontrol *kcontrol,
 	tfa98xx_mixer_profile = new_profile;
 
 	#ifndef OPLUS_BUG_COMPATIBILITY
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA,*/
 	/*2018/06/18, Modify for I2C/I2S*/
 	/*sequence issue in voice call switch.*/
 	mutex_lock(&tfa98xx_mutex);
@@ -2724,7 +2669,6 @@ static int tfa98xx_set_cal_ctl(struct snd_kcontrol *kcontrol,
 #define CHIP_RIGHT_ADDR	(0x35)
 #define CHIP_RCV_ADDR		(0x34)
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 static int tfa98xx_selector = 0;
 #endif //OPLUS_BUG_COMPATIBILITY
 static int tfa98xx_info_stereo_ctl(struct snd_kcontrol *kcontrol,
@@ -2745,7 +2689,6 @@ static int tfa98xx_set_stereo_ctl(struct snd_kcontrol *kcontrol,
 
 	selector = ucontrol->value.integer.value[0];
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 	tfa98xx_selector = selector;
 #endif //OPLUS_BUG_COMPATIBILITY
 
@@ -2753,7 +2696,6 @@ static int tfa98xx_set_stereo_ctl(struct snd_kcontrol *kcontrol,
 
 	mutex_lock(&tfa98xx_mutex);
 	list_for_each_entry(tfa98xx, &tfa98xx_device_list, list) {
-/*Lisa.Wang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/01/22, Add for stereo spk*/
 		if (tfa98xx->tfa->channel != 0xff) {
 			if (selector == CHIP_SELECTOR_LEFT || selector == CHIP_SELECTOR_RCV) {
 				if (tfa98xx->tfa->channel == 0)
@@ -2797,7 +2739,6 @@ static int tfa98xx_get_stereo_ctl(struct snd_kcontrol *kcontrol,
 	mutex_lock(&tfa98xx_mutex);
 	list_for_each_entry(tfa98xx, &tfa98xx_device_list, list) {
 #ifdef OPLUS_BUG_COMPATIBILITY
-/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 		ucontrol->value.integer.value[0] = tfa98xx_selector;
 #else
 		ucontrol->value.integer.value[0] = tfa98xx->flags;
@@ -2991,7 +2932,6 @@ static int tfa98xx_create_controls(struct tfa98xx *tfa98xx)
 	nr_controls = 2; /* Profile and stop control */
 
 #ifdef OPLUS_ARCH_EXTENDS
-/* Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/07/18, Add for TFA98XX Firmware */
 	nr_controls += 1;
 #endif /*OPLUS_ARCH_EXTENDS*/
 
@@ -3067,7 +3007,6 @@ static int tfa98xx_create_controls(struct tfa98xx *tfa98xx)
 #endif
 
 #ifdef OPLUS_ARCH_EXTENDS
-/* Zhao.Pan@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/07/18, Add for check out of bounds */
     if (mix_index > nr_controls) {
 		pr_err("%s: error: mix_index(%d) > nr_controls(%d), memory out of bounds\n",
 					__func__, mix_index, nr_controls);
@@ -3108,7 +3047,6 @@ static int tfa98xx_append_i2c_address(struct device *dev,
 	char buf[50];
 	int i;
 	#ifdef OPLUS_ARCH_EXTENDS
-	//Xiong.H@Multimedia.AudioDriver.SmartPA 2022/06/06 fix coverity
 	unsigned int i2cbus = i2c->adapter->nr;
 	unsigned int addr = i2c->addr;
 	#else
@@ -3185,9 +3123,6 @@ static struct snd_soc_dapm_widget tfa98xx_dapm_widgets_saam[] = {
 };
 
 #ifndef OPLUS_BUG_COMPATIBILITY
-/* Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2018/05/14,
- * Modify for conflict with msm platform DMIC dapm.
- */
 static struct snd_soc_dapm_widget tfa9888_dapm_inputs[] = {
 	SND_SOC_DAPM_INPUT("DMIC1"),
 	SND_SOC_DAPM_INPUT("DMIC2"),
@@ -3217,9 +3152,6 @@ static const struct snd_soc_dapm_route tfa98xx_dapm_routes_stereo[] = {
 };
 
 #ifndef OPLUS_BUG_COMPATIBILITY
-/* Jianfeng.Qiu@PSW.MM.AudioDriver.Machine, 2018/05/14,
- * Modify for conflict with msm platform DMIC dapm.
- */
 static const struct snd_soc_dapm_route tfa9888_input_dapm_routes[] = {
 	{ "AIF OUT", NULL, "DMIC1" },
 	{ "AIF OUT", NULL, "DMIC2" },
@@ -3669,7 +3601,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 	enum tfa_error tfa_err;
 	int container_size;
 	int ret;
-	//YeWenliang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/02/04, Add for config new fw name
 	const char *new_fw_name = (tfa98xx->tfa->fw_name == NULL) ? fw_name : tfa98xx->tfa->fw_name;
 
 	tfa98xx->dsp_fw_state = TFA98XX_DSP_FW_FAIL;
@@ -3704,9 +3635,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 		tfa_err = tfa_load_cnt(container, container_size);
 		if (tfa_err != tfa_error_ok) {
 			#ifdef OPLUS_BUG_COMPATIBILITY
-			/* Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1226731
-			 * 2018/05/12, Add for FTM
-			 */
 			strcpy(ftm_load_file, "load_file_fail");
 			#endif /* OPLUS_BUG_COMPATIBILITY */
 			//mutex_unlock(&tfa98xx_mutex);
@@ -3768,7 +3696,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 
 		for (i = 0; i < nprof; i++) {
 			#ifdef OPLUS_ARCH_EXTENDS
-			//Xiong.H@Multimedia.AudioDriver.SmartPA 2022/06/06 fix coverity
 			char* profile_name = tfa_cont_profile_name(tfa98xx, i);
 			if ((NULL != profile_name) && (strcmp(profile_name,
 							dflt_prof_name) == 0)) {
@@ -3810,7 +3737,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 	}
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* xiang.fei@MM.AudioDriver.Codec,*/
 	/* 2018/03/12, Add for noise in reboot*/
 	if (tfa98xx->flags & TFA98XX_FLAG_TDM_DEVICE)
 		return;
@@ -3830,7 +3756,6 @@ static void tfa98xx_container_loaded(const struct firmware *cont, void *context)
 }
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12,*/
 /* Add for tfa9890 and tfa9894 config */
 bool is_tfa98xx_series_v6(int rev)
 {
@@ -3846,7 +3771,6 @@ static int tfa98xx_load_container(struct tfa98xx *tfa98xx)
 {
 	const struct firmware *pFirmware;
 	int rc = -1;
-	//YeWenliang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/02/04, Add for config new fw name
 	const char *new_fw_name = (tfa98xx->tfa->fw_name == NULL) ? fw_name : tfa98xx->tfa->fw_name;
 
 	tfa98xx->dsp_fw_state = TFA98XX_DSP_FW_PENDING;
@@ -3955,7 +3879,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 	bool reschedule = false;
 	bool sync = false;
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, add for calibrate */
 	int value = 0;
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -3979,7 +3902,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 	#ifdef OPLUS_BUG_COMPATIBILITY
 	if (!tfa98xx->tfa->is_probus_device) {
 		/*This is only for DSP TFA like TFA9894*/
-		/* xiang.fei@MM.AudioDriver.Codec,*/
 		/*2018/03/12, add for calibrate */
 		value = tfa_dev_mtp_get(tfa98xx->tfa, TFA_MTP_EX);
 		if (!value) {
@@ -4001,9 +3923,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 		ret = tfa98xx_tfa_start(tfa98xx, tfa98xx->profile,
 			tfa98xx->vstep);
 		#ifdef OPLUS_BUG_COMPATIBILITY
-		/*Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1447460, 2018/07/04,
-		 *fix ftm ringtone current small paly with calibrate profile.
-		 */
 		if ((!value) && (ret == Tfa98xx_Error_Ok)) {
 			tfa_dev_stop(tfa98xx->tfa);
 			tfa98xx->profile = tfa98xx_mixer_profile;
@@ -4059,9 +3978,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 		cancel_delayed_work(&tfa98xx->init_work);
 		tfa98xx->init_count = 0;
 		#ifdef OPLUS_BUG_COMPATIBILITY
-		/* Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1226731, 2018/05/12
-		 * Add for FTM
-		 */
 		if (ftm_mode == BOOT_MODE_FACTORY)
 			strcpy(ftm_path, "open_path_fail");
 		#endif /* OPLUS_BUG_COMPATIBILITY */
@@ -4086,7 +4002,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 				&tfa98xx_device_list, list) {
 				mutex_lock(&tfa98xx->dsp_lock);
 #ifdef OPLUS_ARCH_EXTENDS
-				// Yongpei.Yao@PSW.MM.AUDIODRIVER.PA, 2020/10/20, mute pa when calibration fail
 				if (!g_speaker_resistance_fail) {
 					tfa_dev_set_state(tfa98xx->tfa, TFA_STATE_UNMUTE);
 				} else {
@@ -4097,7 +4012,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 				tfa_dev_set_state(tfa98xx->tfa, TFA_STATE_UNMUTE);
 #endif
 				#ifdef OPLUS_ARCH_EXTENDS
-				// Yongpei.Yao@PSW.MM.AUDIODRIVER.PA, 2020/10/20, Add for spk mute ctrl
 				if (s_speaker_force_mute == 1) {
 					pr_info("Speaker force mute, muting...\n");
 					usleep_range(1000, 2000);
@@ -4119,9 +4033,6 @@ static void tfa98xx_dsp_init(struct tfa98xx *tfa98xx)
 		}
 
 		#ifdef OPLUS_BUG_COMPATIBILITY
-		/* Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1226731, 2018/05/12
-		 * Add for FTM
-		 */
 		if (ftm_mode == BOOT_MODE_FACTORY) {
 			pr_info("finish for ftm ringtone\n");
 			strcpy(ftm_tfa98xx_flag, "ok");
@@ -4446,7 +4357,6 @@ enum Tfa98xx_Error tfa98xx_adsp_send_calib_values(void)
 		if (TFA_GET_BF(tfa, MTPEX) == 1) {
 			value = tfa_dev_mtp_get(tfa, TFA_MTP_RE25);
 #ifdef OPLUS_BUG_COMPATIBILITY
-//Jianqing.Liao@PSW.MM.AudioDrvier,if impedance < 4ohm, use defalue value 6ohm
 			if (value < 4000 && (tfa98xx_factory_flag == 0)) {
 				pr_info("Device 0x%x ,speaker =  %dmohm,use default value.\n",
 					tfa98xx->i2c->addr, value);
@@ -4454,7 +4364,6 @@ enum Tfa98xx_Error tfa98xx_adsp_send_calib_values(void)
 			}
 #endif
 #ifdef OPLUS_ARCH_EXTENDS
-// Yongpei.Yao@PSW.MM.AUDIODROVER.PA, 2021/03/11, mute pa when calibration fail
 			if ((value < tfa98xx->tfa->min_mohms) || (value > tfa98xx->tfa->max_mohms)) {
 				pr_info("speaker_resistance_fail value = %d", value);
 				g_speaker_resistance_fail = true;
@@ -4531,7 +4440,6 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
 			tfa98xx->pstream = 0;
 		else
 			tfa98xx->cstream = 0;
-/*bug 2421046 xiexiaoping_wt@MULTIMEDIA.AUDIODRIVER,2021/11/2.WT audio IIC&IIS timr*/
 		if (TFA_GET_BF(tfa98xx->tfa, PWDN) == 1)
 			return 0;
 
@@ -4560,7 +4468,6 @@ static int tfa98xx_mute(struct snd_soc_dai *dai, int mute, int stream)
 
 		/* Start DSP */
 		#ifndef OPLUS_BUG_COMPATIBILITY
-		/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA.1234963,*/
 		/*2018/05/02, Modify for no sound*/
 		if (tfa98xx->dsp_init != TFA98XX_DSP_INIT_PENDING)
 			queue_delayed_work(tfa98xx->tfa98xx_wq,
@@ -4614,7 +4521,6 @@ static struct snd_soc_dai_driver tfa98xx_dai[] = {
 		 },
 		.ops = &tfa98xx_dai_ops,
 #ifndef OPLUS_BUG_COMPATIBILITY
-/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12,*/
 /* remove for unmatch symmetry hw_params in conflict playback scenes */
 		.symmetric_rates = 1,
 /*#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)*/
@@ -4636,14 +4542,12 @@ static int tfa98xx_probe(struct snd_soc_component *component)
 #endif
 	int ret = 0;
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 	static int init_times = 0;
 	#endif //OPLUS_BUG_COMPATIBILITY
 
 	pr_info("%s\n", __func__);
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, add for codec */
 	tfa98xx_whole_v6 = tfa98xx;
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 	/* setup work queue, will be used to initial DSP on first boot up */
@@ -4665,7 +4569,6 @@ static int tfa98xx_probe(struct snd_soc_component *component)
 #endif
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 	if (init_times == 0) {
 		ret = tfa98xx_create_controls(tfa98xx);
 		pr_info("We created mixer control in probe  ret=%d\n", ret);
@@ -4678,7 +4581,6 @@ static int tfa98xx_probe(struct snd_soc_component *component)
 	tfa98xx_add_widgets(tfa98xx);
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, add for ftm */
 	#if LINUX_VERSION_CODE < KERNEL_VERSION(4,19,0)
 	snd_soc_add_codec_controls(tfa98xx->codec,
 		tfa98xx_snd_controls, ARRAY_SIZE(tfa98xx_snd_controls));
@@ -4689,7 +4591,6 @@ static int tfa98xx_probe(struct snd_soc_component *component)
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 	if (init_times == 0) {
 	#if LINUX_VERSION_CODE < KERNEL_VERSION(4,19,0)
 	snd_soc_add_codec_controls(tfa98xx->codec,
@@ -4709,9 +4610,6 @@ static int tfa98xx_probe(struct snd_soc_component *component)
 	#endif //OPLUS_BUG_COMPATIBILITY
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.954616, 2017/01/03
-	 * Add for get spk revision
-	 */
 	#if LINUX_VERSION_CODE < KERNEL_VERSION(4,19,0)
 	snd_soc_add_codec_controls(tfa98xx->codec,
 				   ftm_spk_rev_controls,
@@ -4724,7 +4622,6 @@ static int tfa98xx_probe(struct snd_soc_component *component)
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 
 	#ifdef OPLUS_ARCH_EXTENDS
-	// Yongpei.Yao@PSW.MM.AUDIODROVER.PA, 2020/10/20, Add for spk force mute
 	#if LINUX_VERSION_CODE < KERNEL_VERSION(4,19,0)
 	snd_soc_add_codec_controls(tfa98xx->codec,
 	#else
@@ -4734,7 +4631,6 @@ static int tfa98xx_probe(struct snd_soc_component *component)
 				   ARRAY_SIZE(tfa98xx_snd_control_spk_reboot));
 	#endif
 	#ifdef OPLUS_ARCH_EXTENDS
-	// Yongpei.Yao@PSW.MM.AUDIODROVER.PA, 2020/10/20, Add for spk force mute
 	#if LINUX_VERSION_CODE < KERNEL_VERSION(4,19,0)
 	snd_soc_add_codec_controls(tfa98xx->codec,
 	#else
@@ -5032,7 +4928,6 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	unsigned int reg;
 	int ret;
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, Modify for chip id */
 	int i = 0;
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 	#ifdef OPLUS_BUG_COMPATIBILITY
@@ -5101,7 +4996,6 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	init_waitqueue_head(&tfa98xx->wq);
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA,*/
 	/*2018/04/20, Add for resource*/
 	tfa98xx->tfa98xx_vdd = regulator_get(&i2c->dev, "tfa98xx_vdd");
 	if (IS_ERR(tfa98xx->tfa98xx_vdd)) {
@@ -5140,7 +5034,6 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 
 #if 0
-/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, Modify for Add for gpio */
 	tfa98xx->reset_gpio = -1;
 	tfa98xx->irq_gpio = -1;
 #else /* OPLUS_BUG_COMPATIBILITY */
@@ -5179,9 +5072,7 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 
 	if ((no_start == 0) && (no_reset == 0)) {
 		#ifdef OPLUS_BUG_COMPATIBILITY
-		/* xiang.fei@MM.AudioDriver.Codec,*/
 		/*2018/03/12, Modify for chip id */
-		//YeWenliang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/01/26, reduce the retry count to 20
 		for (i = 0; i < 20; i++) {
 			ret = regmap_read(tfa98xx->regmap, 0x03, &reg);
 			if ((ret < 0) || !is_tfa98xx_series_v6(reg & 0xff)) {
@@ -5286,7 +5177,6 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	tfa98xx->tfa->cachep = tfa98xx_cache;
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/*Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA, 2019/09/10, Add for calibration range*/
 	ret = of_property_read_u32(i2c->dev.of_node, "tfa_min_range", &tfa98xx->tfa->min_mohms);
 	if (ret) {
 		dev_err(&i2c->dev, "Failed to parse spk_min_range node\n");
@@ -5302,14 +5192,12 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 	dev_err(&i2c->dev, "min_mohms=%d, max_mohms=%d\n",
 			tfa98xx->tfa->min_mohms, tfa98xx->tfa->max_mohms);
 
-	//YeWenliang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2021/02/04, Add for config new fw name
 	ret = of_property_read_string(i2c->dev.of_node, "tfa_fw_name", &tfa98xx->tfa->fw_name);
 	if (ret) {
 		dev_err(&i2c->dev, "Failed to parse tfa_fw_name node\n");
 		tfa98xx->tfa->fw_name = NULL;
 	}
 
-	/*Lisa.Wang@MULTIMEDIA.AudioDriver.SmartPA, 2021/01/18, Add for stereo spk*/
 	/* 0-left/top, 1-right/bottom, 0xff-default, not initialized */
 	ret = of_property_read_u32(i2c->dev.of_node, "tfa_channel", &tfa98xx->tfa->channel);
 	if (ret) {
@@ -5334,7 +5222,6 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 
 #ifdef OPLUS_BUG_COMPATIBILITY
 
-	/*Zhao.Pan@PSW.MM.AudioDriver.SmartPA, 2020/01/08, Add for stereo spk*/
 	snprintf(buf, sizeof(buf), "tfa98xx.%x-%04x", i2cbus, addr);
 	ret = dev_set_name(&i2c->dev, buf);
 	if (ret < 0) {
@@ -5406,9 +5293,6 @@ int tfa98xx_i2c_probe(struct i2c_client *i2c,
 		tfa98xx_debug_init(tfa98xx, i2c);
 
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jianfeng.Qiu@PSW.MM.AudioDriver.FTM.1226731, 2018/05/12,
-	 * Add for FTM
-	 */
 #ifdef CONFIG_DEBUG_FS
 	tfa98xx_debug_entry = debugfs_create_file(TFA98XX_DEBUG_FS_NAME,
 					      S_IFREG | 0644,

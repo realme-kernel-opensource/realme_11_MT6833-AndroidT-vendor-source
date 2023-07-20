@@ -75,7 +75,6 @@ obj-$(CONFIG_OPLUS_FEATURE_FDLEAK_CHECK)     += common/oplus_fdleak/
 #endif /*CONFIG_OPLUS_FEATURE_FDLEAK_CHECK*/
 
 #ifdef OPLUS_FEATURE_LAST_BOOT_REASON
-#nick.chen@TECH.BSP.Stability，2022/02/14, add for oplus_last_boot_reason
 obj-$(CONFIG_OPLUS_FEATURE_LAST_BOOT_REASON) += common/last_boot_reason/
 #endif /*OPLUS_FEATURE_LAST_BOOT_REASON*/
 

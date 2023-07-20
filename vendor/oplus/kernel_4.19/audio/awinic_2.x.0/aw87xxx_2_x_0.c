@@ -53,7 +53,6 @@
 #include "aw87xxx_dsp.h"
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 #include "../oplus_speaker_manager/oplus_speaker_manager_platform.h"
 #include "../oplus_speaker_manager/oplus_speaker_manager_codec.h"
 #endif /* CONFIG_SND_SOC_OPLUS_PA_MANAGER */
@@ -92,7 +91,6 @@ static struct aw_componet_codec_ops aw_componet_codec_ops = {
 #endif
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 enum {
         AW87XXX_LEFT_CHANNEL = 0,
         AW87XXX_RIGHT_CHANNEL = 1,
@@ -697,7 +695,6 @@ static int aw87xxx_spin_switch_get(struct snd_kcontrol *kcontrol,
 }
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/* Sidong.Zhao@ODM_WT.mm.audiodriver.Codec, 2021/03/24, add code for speaker low voltage*/
 int aw87xxx_2_x_0_spk_low_voltage_status = 0;
 /*
 static int aw87xxx_dev_set_vol_reg_normal(struct aw87xxx *aw87xxx)
@@ -732,7 +729,6 @@ static int aw87xxx_dev_set_vol_reg_normal(struct aw87xxx *aw87xxx)
 }
 */
 
-/* Sidong.Zhao@ODM_WT.mm.audiodriver.Codec, 2021/03/24, add code for speaker low voltage*/
 /*
 static void aw87xxx_audio_spk_low_voltage_status(int bStatus)
 {
@@ -771,7 +767,6 @@ static void aw87xxx_audio_spk_low_voltage_status(int bStatus)
 }
 */
 
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 void aw87xxx_2_x_0_enable_pa(int enable, int mode, int32_t channel) {
         if(enable) {
                 if(mode == SPK_MODE) {
@@ -1721,7 +1716,6 @@ static int aw87xxx_i2c_probe(struct i2c_client *client,
 	int ret = -1;
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 	struct oplus_speaker_device *speaker_device = NULL;
 	bool new_speaker_device_node = false;
 	uint32_t real_addr = 0;
@@ -1786,7 +1780,6 @@ static int aw87xxx_i2c_probe(struct i2c_client *client,
 	mutex_unlock(&g_aw87xxx_mutex_lock);
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Jin.Liu@MULTIMEDIA.AUDIODRIVER.CODEC,2021/10/19,add PA manager*/
 	pr_info("%s():,oplus_register start\r\n", __func__);
 
 	speaker_device = get_speaker_dev(aw87xxx->dev_index + 1);
@@ -1840,7 +1833,6 @@ exit_device_init_failed:
 		devm_gpio_free(&client->dev, aw87xxx->aw_dev.rst_gpio);
 	}
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Yang.Xiang@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2022/06/09, add for AW87xxx_2_X_0
 	i2c_set_clientdata(client, NULL);
 	pr_err("%s, %d, check id failed! set its client to NULL!", __func__, __LINE__);
 #endif

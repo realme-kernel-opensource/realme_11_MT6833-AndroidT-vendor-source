@@ -16,7 +16,6 @@ obj-$(CONFIG_OPLUS_FEATURE_DUMP_DEVICE_INFO)	+=  dump_device_info/
 obj-$(CONFIG_OPLUS_FEATURE_RECORD_MDMRST)     += mdmrst/
 obj-$(CONFIG_OPLUS_FEATURE_CMDLINE)     += cmdline_parser/
 #ifdef OPLUS_FEATURE_DUMP_REASON
-#terry.zhong@optimization.Stability, 2020/11/30, Add for dump reason
 obj-$(CONFIG_OPLUS_FEATURE_DUMP_REASON)	+=  dump_reason/
 #endif /* OPLUS_FEATURE_DUMP_REASON */
 
@@ -29,7 +28,6 @@ obj-$(CONFIG_OPLUS_FEATURE_QCOM_PMICWD)     += qcom_pmicwd/
 #endif /* OPLUS_FEATURE_QCOM_PMICWD */
 
 #ifdef OPLUS_FEATURE_MM_FEEDBACK
-#Zhao.Pan@MULTIMEDIA.AUDIODRIVER.KERNEL, 2020/08/08, Add for multimedia kevent feedback driver
 obj-$(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)         += oplus_mm_fb/
 #endif /* OPLUS_FEATURE_MM_FEEDBACK */
 
@@ -38,35 +36,28 @@ obj-$(CONFIG_OPLUS_FEATURE_QCOM_WATCHDOG)     += qcom_watchdog/
 #endif /* OPLUS_FEATURE_QCOM_WATCHDOG */
 
 #ifdef OPLUS_FEATURE_ACM
-#Yuwei.Guan@BSP.Kernel.FS,2020/07/08, Add for acm
 obj-$(CONFIG_OPLUS_FEATURE_ACM)     += acm/
 #endif /* OPLUS_FEATURE_ACM */
 #ifdef OPLUS_FEATURE_THEIA
-#yanggang@BSP.Kernel.Stability,2020/07/08, Add for theia
 obj-$(CONFIG_OPLUS_FEATURE_THEIA)     += theia/
 #endif /* OPLUS_FEATURE_THEIA */
 #ifdef OPLUS_FEATURE_SELINUX_CONTROL_LOG
-#Shuangquan.Du@ANDROID.SELINUX, 2018/01/13, Add for disable selinux denied logs in MP version
 obj-$(CONFIG_SECURITY_SELINUX) += selinux/
 #endif /* OPLUS_FEATURE_SELINUX_CONTROL_LOG */
 #ifdef OPLUS_FEATURE_MISC
-#terry.zhong@OPTI.Kernel.Stability, 2020/09/7, enable oplus misc feature
 obj-y += misc/
 #endif /* OPLUS_FEATURE_MISC */
 
 #ifdef OPLUS_FEATURE_FORCE_SHUTDOWN
-#wanghao@BSP.Kernel.stability, 2021/07/02, add for force shutdown function
 obj-$(CONFIG_OPLUS_FEATURE_MTK_FORCE_SHUTDOWN)     += mtk_shutdown_reboot/
 #endif
 
 obj-$(CONFIG_OPLUS_FEATURE_RT_OPT_INFO) += rt_info/
 #ifdef OPLUS_FEATURE_HANS
-#Zhou.Kun@Android.Power, 2021/06/30, enable oplus app freezer feature
 obj-$(CONFIG_OPLUS_FEATURE_HANS_GKI) += oplus_hans/
 #endif /* OPLUS_FEATURE_HANS */
 
 #ifdef OPLUS_FEATURE_OLC
-#yange.zhang@BSP.DFT, 2021/11/15, add for oplus log core
 obj-$(CONFIG_OPLUS_FEATURE_OLC) += olc/
 #endif /*OPLUS_FEATURE_OLC */
 
@@ -75,7 +66,6 @@ obj-$(CONFIG_OPLUS_FEATURE_FDLEAK_CHECK)     += oplus_fdleak/
 #endif /*CONFIG_OPLUS_FEATURE_FDLEAK_CHECK*/
 
 #ifdef OPLUS_FEATURE_LAST_BOOT_REASON
-#Tongyang.Xu@TECH.BSP.Stability，2022/02/14, add for oplus_last_boot_reason
 obj-$(CONFIG_OPLUS_FEATURE_LAST_BOOT_REASON) += last_boot_reason/
 #endif /*OPLUS_FEATURE_LAST_BOOT_REASON*/
 

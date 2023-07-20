@@ -3616,7 +3616,6 @@ static int explorer_parse_clocks(struct explorer_plat_data *plat_priv)
 #ifdef OPLUS_EXPLORER_PLATFORM_QCOM
 	plat_priv->clk_ref = devm_clk_get(dev, "clk_ref");
 #else
-	// sunxiaohong@CAM.DRV, 20220711, Modify for adaptation to different platforms.
 	u32 clk_ref      = 9;            // default  XO_RFCK2B
 	u32 clk_voter_id = 5;            // default  5
 	const char *clk_voter = "0x20";  // default  0x20

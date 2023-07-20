@@ -70,7 +70,6 @@ source "drivers/soc/oplus/dfr/common/oplus_fdleak/Kconfig"
 #endif /*CONFIG_OPLUS_FEATURE_FDLEAK_CHECK*/
 
 #ifdef OPLUS_FEATURE_LAST_BOOT_REASON
-#nick.chen@TECH.BSP.Stability，2022/02/14, add for oplus_last_boot_reason
 source "drivers/soc/oplus/dfr/common/last_boot_reason/Kconfig"
 #endif /*OPLUS_FEATURE_LAST_BOOT_REASON*/
 

@@ -2400,7 +2400,6 @@ tfaContGet1stLiveDataList(struct nxpTfaContainer *cont)
 	// get last devlist
 	dev = tfaContGetDevList(cont, maxdev - 1);
 	#ifdef OPLUS_ARCH_EXTENDS
-	//Chunyu.Xie@Multimedia.AudioDriver.SmartPA 2022/06/06 fix converity
 	if (dev == NULL)
 		return NULL;
 	#endif
@@ -2635,7 +2634,6 @@ int tfa_tib_dsp_msgmulti(struct tfa_device *tfa, int length, const char *buffer)
 
 		blob = kmalloc(tfadsp_max_msg_size, GFP_KERNEL);
 		#ifdef OPLUS_ARCH_EXTENDS
-		//Xiong.H@Multimedia.AudioDriver.SmartPA 2022/06/06 fix coverity
 		if (NULL == blob) {
 			pr_debug("%s, blob kmalloc failed.\n", __func__);
 			return Tfa98xx_Error_Fail;

@@ -11,7 +11,6 @@
 #include <linux/gpio.h>
 
 //#ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2020/08/20, adjust the voltage of Headset DET */
 #include <linux/regulator/consumer.h>
 //#endif /*OPLUS_ARCH_EXTENDS*/
 
@@ -63,18 +62,15 @@ struct fsa4480_priv {
 	struct mutex notification_lock;
 	unsigned int hs_det_pin;
 	//#ifdef OPLUS_ARCH_EXTENDS
-	/*Lisa.Wang@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/01/04, add for fsa4480 hs_det_level*/
 	int hs_det_level;
 	//#endif /*OPLUS_ARCH_EXTENDS*/
 	enum switch_vendor vendor;
 	bool plug_state;
 	bool b_dynamic_sense_to_ground;
 	//#ifdef OPLUS_ARCH_EXTENDS
-	/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/04/21, add for dio4480 check switch status*/
 	struct work_struct usbc_digit_work;
 	uint8_t  new_state;
 	uint8_t  old_state;
-	/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/06/23, add for reset gpio*/
 	int reset_gpio;
 	//#endif /*OPLUS_ARCH_EXTENDS*/
 };
@@ -105,13 +101,11 @@ static const struct fsa4480_reg_val fsa_reg_i2c_defaults[] = {
 };
 
 #ifdef OPLUS_ARCH_EXTENDS
-//Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2020/11/04, support mic and ground switch to fix headset detect bug
 struct fsa4480_priv *g_fsa_priv = NULL;
 static int dio_status = 0;
 #endif
 
 //#ifdef OPLUS_ARCH_EXTENDS
-/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/04/21, add for dio4480 check switch status*/
 static void fsa4480_usbc_digit_work_fn(struct work_struct *work)
 {
 	struct fsa4480_priv *fsa_priv =
@@ -337,7 +331,6 @@ static int fsa4480_usbc_analog_setup_switches(struct fsa4480_priv *fsa_priv)
 			/* deactivate switches */
 			fsa4480_usbc_update_settings(fsa_priv, 0x18, 0x98);
 			//#ifdef OPLUS_ARCH_EXTENDS
-			/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2020/08/28, add for connect SENSE to GND when  headset plug out */
 			//regmap_write(fsa_priv->regmap, FSA4480_SWITCH_SETTINGS, 0x9D);
 			//#endif /*OPLUS_ARCH_EXTENDS*/
 		}
@@ -440,7 +433,6 @@ int fsa4480_switch_event(struct device_node *node,
 {
 	int switch_control = 0;
 #ifndef OPLUS_ARCH_EXTENDS
-//Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2020/11/04, support mic and ground switch to fix headset detect bug
 	struct i2c_client *client = of_find_i2c_device_by_node(node);
 	struct fsa4480_priv *fsa_priv;
 
@@ -504,7 +496,6 @@ int fsa4480_switch_event(struct device_node *node,
 EXPORT_SYMBOL(fsa4480_switch_event);
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2021/07/20, supporting dynamic sense to ground, fix leakage bug */
 int fsa4480_sense_to_ground(bool bstate)
 {
     struct fsa4480_priv *fsa_priv = g_fsa_priv;
@@ -552,7 +543,6 @@ static int fsa4480_parse_dt(struct fsa4480_priv *fsa_priv,
     int sense_to_ground = 0;
 
 //#ifdef OPLUS_ARCH_EXTENDS
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2020/08/20, adjust the voltage of Headset DET */
     static struct regulator *vio28_reg;
     vio28_reg = regulator_get(NULL, "vio28");
 
@@ -586,7 +576,6 @@ static int fsa4480_parse_dt(struct fsa4480_priv *fsa_priv,
 	}
 
 	//#ifdef OPLUS_ARCH_EXTENDS
-	/*Lisa.Wang@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/01/04, add for fsa4480 hs_det_level*/
 	ret = of_property_read_u32(dNode,
 			"fsa4480,hs-det-level", &hs_det_level);
 	if (ret) {
@@ -598,7 +587,6 @@ static int fsa4480_parse_dt(struct fsa4480_priv *fsa_priv,
 	//#endif /*OPLUS_ARCH_EXTENDS*/
 
 	//#ifdef OPLUS_ARCH_EXTENDS
-	/*Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2021/07/20, supporting dynamic sense to ground, fix leakage bug */
 	ret = of_property_read_u32(dNode,
 			"fsa4480,dynamic-sense-to-gnd", &sense_to_ground);
 	if (ret) {
@@ -617,7 +605,6 @@ static int fsa4480_parse_dt(struct fsa4480_priv *fsa_priv,
 	dev_info(dev, "%s: hs_det_pin gpio = %d.\n", __func__, fsa_priv->hs_det_pin);
 
 	//#ifdef OPLUS_ARCH_EXTENDS
-	/*YeWenliang@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/03/02, add for fsa4480 hs_det_level*/
 	gpio_direction_output(fsa_priv->hs_det_pin, !fsa_priv->hs_det_level);
 	//#else /*OPLUS_ARCH_EXTENDS*/
 	//gpio_direction_output(fsa_priv->hs_det_pin, 1);
@@ -627,7 +614,6 @@ static int fsa4480_parse_dt(struct fsa4480_priv *fsa_priv,
 	dev_info(dev, "%s: init hs_det_pin state = %d.\n", __func__, state);
 
 	//#ifdef OPLUS_ARCH_EXTENDS
-	/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/06/23, add reset gpio*/
 	fsa_priv->reset_gpio = of_get_named_gpio(dNode,
 	        "fsa4480,reset-gpio", 0);
 	if (gpio_is_valid(fsa_priv->reset_gpio)) {
@@ -708,7 +694,6 @@ static int fsa4480_probe(struct i2c_client *i2c,
     if (fsa_priv->vendor != DIO4480) {
 	    fsa4480_update_reg_defaults(fsa_priv->regmap);
 		//#ifdef OPLUS_ARCH_EXTENDS
-		/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2020/08/28, add for connect SENSE to GND when  headset plug out */
 		//regmap_write(fsa_priv->regmap, FSA4480_SWITCH_SETTINGS, 0x9D);
 		//#endif /*OPLUS_ARCH_EXTENDS*/
 	}
@@ -747,7 +732,6 @@ static int fsa4480_probe(struct i2c_client *i2c,
 		((fsa_priv->fsa4480_notifier).rwsem);
 	fsa_priv->fsa4480_notifier.head = NULL;
 #ifdef OPLUS_ARCH_EXTENDS
-//Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2020/11/04, support mic and ground switch to fix headset detect bug
 	g_fsa_priv = fsa_priv;
 #endif
 
@@ -775,7 +759,6 @@ static int fsa4480_remove(struct i2c_client *i2c)
 	pm_relax(fsa_priv->dev);
 	mutex_destroy(&fsa_priv->notification_lock);
 #ifdef OPLUS_ARCH_EXTENDS
-    /* Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.HEADSET, 2021/03/11, fix memory leak bug*/
 	register_tcp_dev_notifier(fsa_priv->tcpc_dev, &fsa_priv->pd_nb, TCP_NOTIFY_TYPE_ALL);
 	if (gpio_is_valid(fsa_priv->hs_det_pin)) {
 		gpio_free(fsa_priv->hs_det_pin);

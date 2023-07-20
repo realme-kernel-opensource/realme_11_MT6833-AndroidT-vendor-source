@@ -6,7 +6,6 @@ source "drivers/soc/oplus/misc/oplus_gpio/Kconfig"
 #endif /* OPLUS_FEATURE_ESIM */
 
 #ifdef OPLUS_FEATURE_SIM_DETECT
-#HeZeLin@NETWORK.SIM, 2022/08/13, modify for sim detect
 config SIM_DETECT
 	tristate "SIM_DETECT system"
 	default n

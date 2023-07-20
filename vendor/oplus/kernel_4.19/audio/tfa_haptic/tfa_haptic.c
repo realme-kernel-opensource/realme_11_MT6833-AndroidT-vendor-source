@@ -31,7 +31,6 @@
 #define TFA98XX_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE)
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.MACHINE, 2021/04/06, Add for haptic tfa*/
 #define MTK_I2S_MAX 6
 static const char *mtk_i2s_prop[MTK_I2S_MAX] = {
 	"I2S0", "I2S1", "I2S2", "I2S3", "I2S4", "I2S5"
@@ -279,7 +278,6 @@ static int tfa_haptic_append_i2c_address(struct device *dev,
 	#endif
 	if (dai_drv && num_dai > 0) {
 #ifdef OPLUS_ARCH_EXTENDS
-/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.MACHINE, 2021/04/06, Add for haptic tfa*/
 		snprintf(buf, 50, "%s-%x-%x", dai_drv[0].name, i2cbus,addr);
 		tfa_dai_link_name = tfa_haptic_devm_kstrdup(dev,buf);
 		snprintf(buf, 50, "tfa_haptic.%x-%04x", i2cbus,addr);
@@ -510,7 +508,6 @@ static int tfa_haptic_parse_dt(struct tfa_haptic *tfa_haptic,
 		pr_warn("No reset GPIO provided, will not HW reset device\n");
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.MACHINE, 2021/04/06, Add for haptic tfa*/
 	ret = of_property_read_u32(np, "i2s-id", &i2s_id);
 	if (ret) {
 		pr_warn("%s: Looking up 'i2s_id' property\n",
@@ -536,7 +533,6 @@ static struct bin_attribute dev_attr_rpc = {
 
 
 #ifdef OPLUS_ARCH_EXTENDS
-/*Jianqing.Liao@MULTIMEDIA.AUDIODRIVER.MACHINE, 2021/04/06, Add for haptic tfa*/
 void tfa_haptic_i2s_be_dailink(struct snd_soc_dai_link *dailink, size_t size)
 {
 	int i = 0;

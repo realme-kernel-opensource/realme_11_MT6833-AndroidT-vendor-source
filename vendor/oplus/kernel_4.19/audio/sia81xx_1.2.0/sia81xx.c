@@ -65,7 +65,6 @@
 #endif
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 #include "../oplus_speaker_manager/oplus_speaker_manager_platform.h"
 #include "../oplus_speaker_manager/oplus_speaker_manager_codec.h"
 
@@ -183,17 +182,14 @@ typedef struct sia81xx_dev_s {
 
 	struct sia81xx_err err_info;
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/27,add PA manager*/
 	unsigned int pre_scene;
 #endif /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2022/1/13, add for chipid node
 	int is_sia;
 #endif
 }sia81xx_dev_t;
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 void *oplus_pa_sia_node = NULL;
 #endif /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
 
@@ -1083,7 +1079,6 @@ static ssize_t sia81xx_device_store(
 #endif
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2022/1/13, add for chipid node
 static ssize_t sia81xx_chip_show(
 	struct device* dev,
 	struct device_attribute *attr,
@@ -1390,7 +1385,6 @@ static ssize_t sia81xx_cmd_store(
  * sia81xx codec driver
  ********************************************************************/
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 static int sia81xx_power_get(
 	struct snd_kcontrol *kcontrol, 
 	struct snd_ctl_elem_value *ucontrol)
@@ -1544,7 +1538,6 @@ static int sia81xx_algo_en_set(
 #endif
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 static bool is_mute_status = false;
 int sia81xx_speaker_mute_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
 {
@@ -1800,7 +1793,6 @@ static const char *const algo_enable[] = { "Off", "On" };
 static const char *const audio_scene[] = { "Playback", "Voice", "Receiver", "Factory" };
 
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 static const struct soc_enum power_enum =
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(power_function), power_function);
 #ifdef ALGO_SWITCH_EN
@@ -1818,7 +1810,6 @@ static const struct soc_enum audio_scene_enum =
 
 static const struct snd_kcontrol_new sia81xx_controls[] = {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-	/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 	SOC_ENUM_EXT("Sia81xx Power", power_enum, 
 			sia81xx_power_get, sia81xx_power_set), 
 #ifdef ALGO_SWITCH_EN
@@ -2317,7 +2308,6 @@ void sia81xx_compatible_chips_adapt(
  * end - sia81xx driver common
  ********************************************************************/
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/27,add PA manager*/
 static int detect_i2c_slave(struct regmap *regmap,unsigned int chip_type)
 {
 	return sia81xx_regmap_check_chip_id(regmap, chip_type);
@@ -2338,7 +2328,6 @@ static int sia81xx_i2c_probe(
 	unsigned int chip_type = CHIP_TYPE_UNKNOWN;
 	int ret = 0;
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-	/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 	struct oplus_speaker_device *speaker_device = NULL;
 	bool new_speaker_device_node = false;
 #endif /* CONFIG_SND_SOC_OPLUS_PA_MANAGER */
@@ -2391,7 +2380,6 @@ static int sia81xx_i2c_probe(
 	}
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 	speaker_device = get_speaker_dev(sia81xx->channel_num + 1);
 	if(speaker_device == NULL){
 		pr_info("%s():speaker_device == null ,oplus_register start\r\n", LOG_FLAG, __func__);
@@ -2429,7 +2417,6 @@ static int sia81xx_i2c_probe(
 			pr_info("%s():,oplus_register end\r\n", LOG_FLAG, __func__);
 		}
 		#ifdef OPLUS_BUG_COMPATIBILITY
-		// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2022/1/13, add for chipid node
 		sia81xx->is_sia = 1;
 		#endif
 	} else {
@@ -2726,7 +2713,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 
 	device_create_file(&pdev->dev, &dev_attr_sia81xx_cmd);
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2022/1/13, add for chipid node
 	device_create_file(&pdev->dev, &dev_attr_sia81xx_chip);
 #endif
 
@@ -2786,7 +2772,6 @@ static int sia81xx_remove(struct platform_device *pdev)
 	pr_info("[ info][%s] %s: remove \r\n", LOG_FLAG, __func__);
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Haiping.Bai@MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/1,add PA manager*/
 	oplus_speaker_pa_remove(oplus_pa_sia_node);
 #endif /* CONFIG_SND_SOC_OPLUS_PA_MANAGER */
 

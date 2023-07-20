@@ -690,7 +690,6 @@ static int clock_control_explorer_internal(struct explorer_plat_data *epd, bool 
  		err = clk_prepare_enable(epd->clk_ref);
 #else
 		err = clk_buf_hw_ctrl(epd->clk_ref, true);
-		/*Tanyijun@CAMERA.DRV, 2022/01/21, Add for resolve ddr test fail*/
 		clk_buf_voter_ctrl_by_id(epd->clk_voter_id, SW_FPM);
 #endif
 #endif
@@ -709,7 +708,6 @@ static int clock_control_explorer_internal(struct explorer_plat_data *epd, bool 
 		/* clk_disable_unprepare() has no return value */
 		clk_disable_unprepare(epd->clk_ref);
 #else
-		/*Tanyijun@CAMERA.DRV, 2022/01/21, Add for resolve ddr test fail*/
 		clk_buf_voter_ctrl_by_id(epd->clk_voter_id, SW_OFF);
 		err = clk_buf_hw_ctrl(epd->clk_ref, false);
 		if (err) {

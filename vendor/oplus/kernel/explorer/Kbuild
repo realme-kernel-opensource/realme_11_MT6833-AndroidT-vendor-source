@@ -60,7 +60,6 @@ ccflags-y := -Werror
 ccflags-y += -DSLT_ENABLE
 ccflags-y += -I$(srctree)/drivers/misc/mediatek/clkbuf/v1/inc \
              -I$(srctree)/drivers/misc/mediatek/clkbuf/v1/src
-# zhongxuejian@CAMERA.DRV,2022/10/08,Add for SUPPORT ref clk new interface
 ccflags-$(CONFIG_MTK_SRCLKEN_RC_V1) += -D SRCLKEN_RC_SUPPORT
 
 ifneq ($(CONFIG_BOARD),RASPBERRYPI)

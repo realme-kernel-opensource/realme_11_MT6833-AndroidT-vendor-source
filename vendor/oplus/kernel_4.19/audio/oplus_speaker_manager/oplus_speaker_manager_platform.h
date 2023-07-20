@@ -8,7 +8,6 @@
 **
 ** Version: 1.0
 ** Date created: 26/05/2021
-** Author: Kun.Zhao@MULTIMEDIA.AUDIODRIVER
 **
 ** --------------------------- Revision History: --------------------------------
 **    <author>       <date>          <desc>

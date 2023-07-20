@@ -65,7 +65,6 @@
 #endif
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 #include "../oplus_speaker_manager/oplus_speaker_manager_platform.h"
 #include "../oplus_speaker_manager/oplus_speaker_manager_codec.h"
 
@@ -132,13 +131,11 @@ enum {
 #define DEFAULT_OTHER_OWI_MODE			(12)
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Liang.Huang@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/19, 2018/12/06, Add for log*/
 #undef pr_info
 #define pr_info pr_err
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
 #ifdef OPLUS_ARCH_EXTENDS
-/* Liang.Huang@MULTIMEDIA.AUDIODRIVER.CODEC, 2020/08/19, 2018/12/06, Add for log*/
 #undef pr_info
 #define pr_info pr_err
 
@@ -189,16 +186,13 @@ typedef struct sia81xx_dev_s {
 }sia81xx_dev_t;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Wenyang.Fan@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/06/16, Add for adjust codec & Sia PA sequence */
 sia81xx_dev_t *g_sia81xx = NULL;
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 void *oplus_pa_sia_node = NULL;
 #endif /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 int g_algo_is_v2 = 0;
 #endif /*OPLUS_BUG_COMPATIBILITY*/
 
@@ -214,7 +208,6 @@ static DEFINE_MUTEX(sia81xx_list_mutex);
 static LIST_HEAD(sia81xx_list);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
 int sia81xx_audio_extern_config = 0;
 #endif /* OPLUS_BUG_COMPATIBILITY */
 //#ifdef CONFIG_SIA_PA_ALGO_20361
@@ -832,7 +825,6 @@ static int sia81xx_resume(
 		sia81xx_timer_task_start(sia81xx->timer_task_hdl);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	if (sia81xx->en_dyn_ud_vdd && g_algo_is_v2) {
 		sia81xx_timer_task_start(sia81xx->timer_task_hdl);
 	}
@@ -940,7 +932,6 @@ static int sia81xx_dev_init(
 	}
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jin.Liu@PSW.MULTIMEDIA.AUDIODRIVER.CODEC,2021/12/23, for driver V1.1.5 to compatible with sixth alog V2 */
 	ret = of_property_read_u32(sia81xx_of_node,
 			"algo_is_v2", &g_algo_is_v2);
 	if((0 != ret) || (1 != g_algo_is_v2)) {
@@ -1379,7 +1370,6 @@ static int sia81xx_power_get(
 	struct snd_ctl_elem_value *ucontrol)
 {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,19,0))
 		struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
 		sia81xx_dev_t *sia81xx = snd_soc_component_get_drvdata(component);
@@ -1417,7 +1407,6 @@ static int sia81xx_power_set(
 	struct snd_ctl_elem_value *ucontrol)
 {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,19,0))
 		struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
 		sia81xx_dev_t *sia81xx = snd_soc_component_get_drvdata(component);
@@ -1429,7 +1418,6 @@ static int sia81xx_power_set(
 	pr_debug("[debug][%s] %s: ucontrol = %ld, rst = %d  \r\n",
 		LOG_FLAG, __func__, ucontrol->value.integer.value[0], sia81xx->rst_pin);
 
-//Xuewen.Yang@MM.AudioDriver.Machine 2021/04/09,add for speaker pa aw87359 & sia8109
 #ifdef CONFIG_SIA_PA_ALGO
 	if(is_sia_chip){
 		if(1 == ucontrol->value.integer.value[0]) {
@@ -1465,7 +1453,6 @@ static int sia81xx_audio_scene_get(
 	struct snd_ctl_elem_value *ucontrol)
 {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,19,0))
 		struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
 		sia81xx_dev_t *sia81xx = snd_soc_component_get_drvdata(component);
@@ -1492,7 +1479,6 @@ static int sia81xx_audio_scene_set(
 	struct snd_ctl_elem_value *ucontrol)
 {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,19,0))
 		struct snd_soc_component *component = snd_soc_kcontrol_component(kcontrol);
 		sia81xx_dev_t *sia81xx = snd_soc_component_get_drvdata(component);
@@ -1588,16 +1574,11 @@ static int sia81xx_algo_en_set(
 #endif
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/12/02,
- * set or get boost voltage for sia8109
- * 8v,7v,6.5v,5v
- */
 
 int sia81xx_volume_boost_power_get(
 	struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
 	if (sia81xx_audio_extern_config == 2)
 	{
 		if(0 == g_sia81xx->disable_pin) {
@@ -1618,7 +1599,6 @@ int sia81xx_volume_boost_power_set(
 	struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
 	if (sia81xx_audio_extern_config == 2)
 	{
 		pr_debug("[debug][%s] %s: ucontrol = %ld, rst = %d \r\n",
@@ -1637,7 +1617,6 @@ int sia81xx_volume_boost_audio_scene_get(
 	struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
 	if (sia81xx_audio_extern_config == 2)
 	{
 		ucontrol->value.integer.value[0] = g_sia81xx->scene;
@@ -1652,7 +1631,6 @@ int sia81xx_volume_boost_audio_scene_set(
 	struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
 	if (sia81xx_audio_extern_config == 2)
 	{
 		pr_debug("[debug][%s] %s: ucontrol = %ld, rst = %d \r\n",
@@ -1680,7 +1658,6 @@ int sia81xx_volume_boost_algo_en_get(
 	struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
 	if (sia81xx_audio_extern_config == 2)
 	{
 		pr_debug("[debug][%s] %s: ucontrol = %ld \r\n",
@@ -1698,7 +1675,6 @@ int sia81xx_volume_boost_algo_en_set(
 	struct snd_kcontrol *kcontrol,
 	struct snd_ctl_elem_value *ucontrol)
 {
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
 	if (sia81xx_audio_extern_config == 2)
 	{
 		pr_debug("[debug][%s] %s: ucontrol = %ld\r\n",
@@ -1718,14 +1694,12 @@ int sia81xx_volme_boost_get(
         struct snd_ctl_elem_value *ucontrol)
 {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
         unsigned char addr = 0x02;
         char val;
         const char voltage[] = {0xCC,0xC8,0xC6,0xCC};
         int vol_length = 4;
         int i;
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
         if(g_sia81xx == NULL) {
             return 0;
         }
@@ -1752,7 +1726,6 @@ int sia81xx_volme_boost_get(
 
 	unsigned char addr = 0x02;
 	char val;
-	//#Fuhua.wang@MULTIMEDIA.AUDIODRIVER,2020/12/01,20015 topic/master 116062
 	const char voltage[] = {0xCC,0xC8,0xC8,0xC6,0xCC,0xCC};
 	int vol_length = 6;
 	int i;
@@ -1783,18 +1756,15 @@ int sia81xx_volme_boost_set(
         struct snd_ctl_elem_value *ucontrol)
 {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
         //struct snd_soc_component *cmpnt = snd_soc_kcontrol_component(kcontrol);
         //sia81xx_dev_t *sia81xx = snd_soc_component_get_drvdata(cmpnt);
         const char voltage[] = {0xCC,0xC8,0xC6,0xCC};
         unsigned char addr = 0x02;
 #ifndef OPLUS_BUG_COMPATIBILITY
-/* Liang.Huang@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/12/14 Add for sts test fail */
         int index = ucontrol->value.integer.value[0];
         char val = voltage[index];
 #else
         unsigned int index = ucontrol->value.integer.value[0];
-/*#Fuhua.wang@MULTIMEDIA.AUDIODRIVER,2021/02/04,check rst pin is on if need to set boost,otherwise i2c will err*/
         int rstpin_is_on = 0;
         if(g_sia81xx->disable_pin == 0){
             rstpin_is_on = gpio_get_value(g_sia81xx->rst_pin);
@@ -1813,7 +1783,6 @@ int sia81xx_volme_boost_set(
         }
 #endif /* OPLUS_BUG_COMPATIBILITY */
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, judge whether to use SIA PA */
         if(g_sia81xx == NULL) {
             return 0;
         }
@@ -1821,7 +1790,6 @@ int sia81xx_volme_boost_set(
         pr_info("[debug][%s] %s: ucontrol = %ld",
                 LOG_FLAG, __func__, ucontrol->value.integer.value[0]);
 #ifndef OPLUS_BUG_COMPATIBILITY
-/* Liang.Huang@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/12/14 Add for sts test fail */
         if(0 != sia81xx_regmap_write(g_sia81xx->regmap, addr, 1, &val)) {
                 pr_err("[err][%s] %s: regmap_write \r\n",
                         LOG_FLAG, __func__);
@@ -1836,16 +1804,13 @@ int sia81xx_volme_boost_set(
 	//struct snd_soc_codec *codec = snd_soc_kcontrol_codec(kcontrol);
 	//sia81xx_dev_t *sia81xx = snd_soc_codec_get_drvdata(codec);
 
-	//#Fuhua.wang@MULTIMEDIA.AUDIODRIVER,2020/12/01,20015 topic/master 116062
 	const char voltage[] = {0xCC,0xC8,0xC8,0xC6,0xCC,0xCC};
 	unsigned char addr = 0x02;
 #ifndef OPLUS_BUG_COMPATIBILITY
-	/* Liang.Huang@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/12/14 Add for sts test fail */
 	int index = ucontrol->value.integer.value[0];
 	char val = voltage[index];
 #else
 	unsigned int index = ucontrol->value.integer.value[0];
-	/*#Fuhua.wang@MULTIMEDIA.AUDIODRIVER,2021/02/04,check rst pin is on if need to set boost,otherwise i2c will err*/
 	int rstpin_is_on = 0;
 	if (g_sia81xx->disable_pin == 0) {
 		rstpin_is_on = gpio_get_value(g_sia81xx->rst_pin);
@@ -1867,7 +1832,6 @@ int sia81xx_volme_boost_set(
 		LOG_FLAG, __func__, ucontrol->value.integer.value[0]);
 
 #ifndef OPLUS_BUG_COMPATIBILITY
-	/* Liang.Huang@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/12/14 Add for sts test fail */
 	if (0 != sia81xx_regmap_write(g_sia81xx->regmap, addr, 1, &val)) {
 		pr_err("[err][%s] %s: regmap_write \r\n",
 			LOG_FLAG, __func__);
@@ -1885,7 +1849,6 @@ EXPORT_SYMBOL(sia81xx_volme_boost_set);
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Wenyang.Fan@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/06/16, Add for adjust codec & Sia PA sequence */
 void sia81xx_start(){
         sia81xx_resume(g_sia81xx);
 }
@@ -1899,12 +1862,10 @@ static const char *const algo_enable[] = { "Off", "On" };
 static const char *const audio_scene[] = { "Playback", "Voice" };
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Liang.Huang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/09/20, set or get boost voltage for sia8109 */
 static const char *const volume_boost[] = { "Voltage8_5","Voltage7", "Voltage6_5","Voltage5" };
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 static const struct soc_enum power_enum =
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(power_function), power_function);
 static const struct soc_enum algo_enum =
@@ -1913,7 +1874,6 @@ static const struct soc_enum audio_scene_enum =
 	SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(audio_scene), audio_scene);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Liang.Huang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/09/20, set or get boost voltage for sia8109 */
 static const struct soc_enum volume_boost_enum =
         SOC_ENUM_SINGLE_EXT(ARRAY_SIZE(volume_boost), volume_boost);
 #endif /* OPLUS_BUG_COMPATIBILITY */
@@ -1925,7 +1885,6 @@ static const struct soc_enum algo_enum =
 
 static const struct snd_kcontrol_new sia81xx_controls[] = {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 	SOC_ENUM_EXT("Sia81xx Power", power_enum,
 			sia81xx_power_get, sia81xx_power_set),
 	SOC_ENUM_EXT("Sia81xx Audio Scene", audio_scene_enum,
@@ -1941,14 +1900,12 @@ static const struct snd_kcontrol_new sia81xx_controls[] = {
 #ifdef OPLUS_BUG_COMPATIBILITY
 static const struct snd_kcontrol_new sia81xx_controls_new[] = {
 #ifndef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 	SOC_ENUM_EXT("Sia81xx Power", power_enum,
 			sia81xx_volume_boost_power_get, sia81xx_volume_boost_power_set),
 	SOC_ENUM_EXT("Sia81xx Alog", algo_enum,
 			sia81xx_volume_boost_algo_en_get, sia81xx_volume_boost_algo_en_set),
 	SOC_ENUM_EXT("Sia81xx Audio Scene", audio_scene_enum,
 			sia81xx_volume_boost_audio_scene_get, sia81xx_volume_boost_audio_scene_set),
-/* Liang.Huang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/09/20, set or get boost voltage for sia8109 */
 	SOC_ENUM_EXT("Sia81xx Volme Boost", volume_boost_enum,
 			sia81xx_volme_boost_get, sia81xx_volme_boost_set)
 #endif /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
@@ -2287,7 +2244,6 @@ static unsigned int get_chip_type(const char *name)
  ********************************************************************/
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 int sia81xx_pa_enable(int enable, int mode, int channel)
 {
 	sia81xx_dev_t *sia81xx = NULL;
@@ -2340,12 +2296,10 @@ static int sia81xx_i2c_probe(
 	const char *chip_type_name = NULL;
 	unsigned int chip_type = CHIP_TYPE_UNKNOWN;
 	int ret = 0;
-    //Xuewen.Yang@MM.AudioDriver.Machine 2021/04/09,add for speaker pa aw87359 & sia8109
     #ifdef CONFIG_SIA_PA_ALGO
 	unsigned int i = 0;
     #endif
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 	struct oplus_speaker_device *speaker_device = NULL;
 	bool is_new_speaker_device = false;
 	unsigned long flags;
@@ -2397,7 +2351,6 @@ static int sia81xx_i2c_probe(
 	}
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Wenyang.Fan@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/06/16, Add for adjust codec & Sia PA sequence */
         g_sia81xx = sia81xx;
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -2410,7 +2363,6 @@ static int sia81xx_i2c_probe(
 	dev_set_drvdata(&client->dev, sia81xx);
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 	/* power on chip*/
 	spin_lock_irqsave(&sia81xx->rst_lock, flags);
 	gpio_set_value(sia81xx->rst_pin, SIA81XX_ENABLE_LEVEL);
@@ -2420,7 +2372,6 @@ static int sia81xx_i2c_probe(
 	speaker_device = get_speaker_dev(sia81xx->channel_num + 1);
 
 	pr_info("%s():,oplus_register start\r\n", LOG_FLAG, __func__);
-/* wangkangmin@WT.MULTIMEDIA.AUDIODRIVER.CODEC,2022/03/23, add chip type condition*/
 	if (((sia81xx_regmap_check_chip_id(sia81xx->regmap, sia81xx->chip_type) == 0)
              || (chip_type == CHIP_TYPE_SIA8102) || (chip_type == CHIP_TYPE_SIA8100))
 	     && speaker_device == NULL) {
@@ -2499,7 +2450,6 @@ static int sia81xx_i2c_probe(
 	chip_type = distinguish_chip_type(sia81xx);
 	set_owi_mod_by_chip_type(sia81xx, chip_type);
 
-//Xuewen.Yang@MM.AudioDriver.Machine 2021/04/09,add for speaker pa aw87359 & sia8109
 #ifdef CONFIG_SIA_PA_ALGO
     /* check id for compat */
     gpio_set_value(sia81xx->rst_pin, SIA81XX_ENABLE_LEVEL);
@@ -2530,7 +2480,6 @@ static int sia81xx_i2c_remove(
 	pr_info("[ info][%s] %s: remove \r\n", LOG_FLAG, __func__);
 
 #ifdef CONFIG_SND_SOC_OPLUS_PA_MANAGER
-/*Kun.Zhao@MULTIMEDIA.AUDIODRIVER.CODEC,2021/4/22,add PA manager*/
 	oplus_speaker_pa_remove(oplus_pa_sia_node);
 #endif /* CONFIG_SND_SOC_OPLUS_PA_MANAGER */
 
@@ -2546,7 +2495,6 @@ static int sia81xx_i2c_remove(
 	put_sia81xx_dev(sia81xx);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Wenyang.Fan@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/06/16, Add for adjust codec & Sia PA sequence */
         g_sia81xx = NULL;
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -2641,7 +2589,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 	int disable_pin = 0, owi_pin = 0, rst_pin = 0;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/19, set or get boost voltage for sia8109 */
 	int  sia_boost_vol = 0;
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -2659,7 +2606,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 	}
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/19, set or get boost voltage for sia8109*/
 
 	ret = of_property_read_u32(pdev->dev.of_node,
 			"si,sia_boost_vol_support", &sia_boost_vol);
@@ -2771,7 +2717,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 	}
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Liang.Huang@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/09/20, set or get boost voltage for sia8109 */
     if((1 == sia_boost_vol) && (sia81xx->chip_type == CHIP_TYPE_SIA8109)) {
         pr_info("[ info][%s]  %s: line = %d  sia81xx->chip_type is  = %d\r\n", LOG_FLAG, __func__,__LINE__,sia81xx->chip_type);
         soc_component_dev_sia81xx.controls = sia81xx_controls_new;
@@ -2788,8 +2733,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 */
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/19, set or get boost voltage for sia8109*/
-	/* Xuewen.Yang@MM.AudioDriver.Machine 2021/04/09,remove this restriction which cause sia8109 no sound */
 	/*if(sia81xx_audio_extern_config != 2) { */
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -2800,7 +2743,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 #endif
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-	/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/19, set or get boost voltage for sia8109*/
 	pr_err("codec registered here");
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -2818,7 +2760,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 	}
 
 	device_create_file(&pdev->dev, &dev_attr_sia81xx_cmd);
-//Xuewen.Yang@MM.AudioDriver.Machine 2021/04/09,add for speaker pa aw87359 & sia8109
 #ifdef CONFIG_SIA_PA_ALGO
     /* add for compat */
     if (device_create_file(&pdev->dev, &dev_attr_is_81xx)) {
@@ -2833,7 +2774,6 @@ static int sia81xx_probe(struct platform_device *pdev)
 	dev_set_drvdata(&pdev->dev, sia81xx);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Wenyang.Fan@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/06/16, Add for adjust codec & Sia PA sequence */
         if(g_sia81xx == NULL)
 		g_sia81xx = sia81xx;
 #endif /* OPLUS_BUG_COMPATIBILITY */
@@ -2889,7 +2829,6 @@ static int sia81xx_remove(struct platform_device *pdev)
 
 	sia81xx->pdev = NULL;
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Wenyang.Fan@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/06/16, Add for adjust codec & Sia PA sequence */
         g_sia81xx = NULL;
 #endif /* OPLUS_BUG_COMPATIBILITY */
 	put_sia81xx_dev(sia81xx);
@@ -2927,7 +2866,6 @@ static struct platform_driver si_sia81xx_dev_driver = {
 #ifdef CONFIG_SIA_PA_ALGO_MT6833
 static int __init sia81xx_pa_init(void)
 #else
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, set or get boost voltage for sia8109 */
 int sia81xx_pa_init(void)
 #endif /* CONFIG_SIA_PA_ALGO_MT6833 */
 {
@@ -2968,7 +2906,6 @@ int sia81xx_pa_init(void)
 	return 0;
 }
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/09, set or get boost voltage for sia8109 */
 EXPORT_SYMBOL(sia81xx_pa_init);
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
@@ -3000,7 +2937,6 @@ static void __exit sia81xx_pa_exit(void)
 module_init(sia81xx_pa_init);
 module_exit(sia81xx_pa_exit);
 #else
-/* Kun.Zhao@MULTIMEDIA.AUDIODRIVER.SMARTPA, 2020/11/19, set or get boost voltage for sia8109*/
 //module_init(sia81xx_pa_init);
 //module_exit(sia81xx_pa_exit);
 #endif /* CONFIG_SIA_PA_ALGO_MT6833 */

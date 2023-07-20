@@ -736,7 +736,6 @@ int wait_firmware_on(struct explorer_plat_data *epd, struct explorer_slt_fw *tar
 				|| target_fw->type == SLT_FW_OS_DDR_QUICK) {
 				epd->ebi.boot_timeout = 2000; // quick rtos mode 2000ms
 				// #ifndef OPLUS_FEATURE_CAMERA_COMMON
-				// sunxiaohong@CAMERA.DRV, 2022/08/06, Modify for explorer ISP test.
 				// epd->ebi.dmod = DDR_QUICK;
 				// #else OPLUS_FEATURE_CAMERA_COMMON
 				epd->ebi.dmod = DDR_BUFFER;

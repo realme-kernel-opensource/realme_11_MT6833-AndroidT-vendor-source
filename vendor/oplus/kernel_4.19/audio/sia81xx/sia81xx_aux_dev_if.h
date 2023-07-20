@@ -34,7 +34,6 @@ int soc_aux_init_only_sia81xx(
 
 #ifdef OPLUS_BUG_COMPATIBILITY
 #ifdef CONFIG_SIA_PA_ALGO
-/* Wenyang.Fan@PSW.MULTIMEDIA.AUDIODRIVER.MACHINE,2020/06/16, Add for adjust codec & Sia PA sequence */
 extern void sia81xx_start(void);
 extern void sia81xx_stop(void);
 #endif /*CONFIG_SIA_PA_ALGO*/

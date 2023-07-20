@@ -30,7 +30,6 @@
 static const char sia8152_palyback_defaults[][SIA8152_WRITEABLE_REG_NUM] = {
 	[SIA81XX_CHANNEL_L] = {
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2022/2/9, modify for reg(0x01)
 				0x93,		//SIA8152_REG_MOD_CFG
 #endif
 				0xE4,		//SIA8152_REG_SYS_EN
@@ -40,7 +39,6 @@ static const char sia8152_palyback_defaults[][SIA8152_WRITEABLE_REG_NUM] = {
 	},
 	[SIA81XX_CHANNEL_R] = {
 #ifdef OPLUS_BUG_COMPATIBILITY
-// Haiping.Bai@MULTIMEDIA.AUDIODRIVER.AUDIODRIVER, 2022/2/9, modify for reg(0x01)
 				0x93,		//SIA8152_REG_MOD_CFG
 #endif
 				0xE4,		//SIA8152_REG_SYS_EN

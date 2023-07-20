@@ -490,7 +490,6 @@ void nic_rxd_v1_check_wakeup_reason(
 	uint16_t u2PktLen = 0;
 	uint32_t u4HeaderOffset;
 #ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-	//LIUMIN@CONNECTIVITY.WIFI.HARDWARE.POWER, 2022/09/02
 	//add for mtk connectivity power monitor
 	char pucLogContent[256] = {'\0'};
 #endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
@@ -556,7 +555,6 @@ void nic_rxd_v1_check_wakeup_reason(
 				IPV4TOSTR(&pvHeader[ETH_HLEN + 12]),
 				u2Temp);
 #ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-			//LIUMIN@CONNECTIVITY.WIFI.HARDWARE.POWER, 2022/09/02
 			//add for mtk connectivity power monitor
 			snprintf(pucLogContent, sizeof(pucLogContent), "wakeup_reason=%d;%d.%d.%d.%d;%u;%d.%d.%d.%d;%u;", pvHeader[ETH_HLEN + 9],
 				pvHeader[ETH_HLEN + 12], pvHeader[ETH_HLEN + 13], pvHeader[ETH_HLEN + 14], pvHeader[ETH_HLEN + 15],
@@ -576,7 +574,6 @@ void nic_rxd_v1_check_wakeup_reason(
 		case ETH_P_AARP:
 		case ETH_P_IPV6:
 #ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-                        //LIUMIN@CONNECTIVITY.WIFI.HARDWARE.POWER, 2022/09/02
                         //add for mtk connectivity power monitor
                         if (u2Temp == ETH_P_IPV6) {
                                 snprintf(pucLogContent, sizeof(pucLogContent), "wakeup_reason=%d;%pI6;%u;%pI6;%u;", pvHeader[ETH_HLEN + 6],

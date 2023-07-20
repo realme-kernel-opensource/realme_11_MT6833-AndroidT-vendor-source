@@ -113,8 +113,6 @@ struct aw87339_t *aw87339_spk = NULL;
 struct aw87339_t *aw87339_rec = NULL;
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.Codec, 2019/11/19,
- * add for setting different registers in voice */
 int aw87339_voice_status = 0;
 int aw87339_spk_low_voltage_status = 0;
 static unsigned char aw87339_kspk_cfg_voice[] = {
@@ -122,8 +120,6 @@ static unsigned char aw87339_kspk_cfg_voice[] = {
 };
 #endif /* OPLUS_BUG_COMPATIBILITY */
 
-/* Jun.Liang@MULTIMEDIA.AUDIODRIVER.AUDIOPARAM, 2020/09/03
- * add for fw dir to fw_path, to load audio PA .bin files */
 static char *aw87339_kspk_name_spk = "aw87339/aw87339_kspk_spk.bin";
 static char *aw87339_drcv_name_spk = "aw87339/aw87339_drcv_spk.bin";
 static char *aw87339_abrcv_name_spk = "aw87339/aw87339_abrcv_spk.bin";
@@ -203,7 +199,6 @@ unsigned char aw87339_hw_on(struct aw87339_t *aw87339)
     pr_info("%s enter\n", __func__);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-    //Dongxu.Chen@Multimedia.AuidoDriver.Codec 2022/03/08 add for fix coverity
     if (aw87339 != NULL) {
 #endif
         if (gpio_is_valid(aw87339->reset_gpio)) {
@@ -216,7 +211,6 @@ unsigned char aw87339_hw_on(struct aw87339_t *aw87339)
             dev_err(&aw87339->i2c_client->dev, "%s:  failed\n", __func__);
         }
 #ifdef OPLUS_BUG_COMPATIBILITY
-    //Dongxu.Chen@Multimedia.AuidoDriver.Codec 2022/03/08 add for fix coverity
     } else {
         pr_err("%s:  failed aw87339 is Null\n", __func__);
     }
@@ -230,7 +224,6 @@ unsigned char aw87339_hw_off(struct aw87339_t *aw87339)
     pr_info("%s enter\n", __func__);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-        //Dongxu.Chen@Multimedia.AuidoDriver.Codec 2022/03/08 add for fix coverity
     if (aw87339 != NULL) {
 #endif
         if (gpio_is_valid(aw87339->reset_gpio)) {
@@ -241,7 +234,6 @@ unsigned char aw87339_hw_off(struct aw87339_t *aw87339)
             dev_err(&aw87339->i2c_client->dev, "%s:  failed\n", __func__);
         }
 #ifdef OPLUS_BUG_COMPATIBILITY
-    //Dongxu.Chen@Multimedia.AuidoDriver.Codec 2022/03/08 add for fix coverity
     } else {
         pr_err("%s:  failed aw87339 is Null\n", __func__);
     }
@@ -258,8 +250,6 @@ unsigned char aw87339_kspk_reg_val(unsigned char reg, struct aw87339_t *aw87339)
 {
     if(aw87339->kspk_cfg_update_flag) {
 #ifdef OPLUS_BUG_COMPATIBILITY
-        /* Yongzhi.Zhang@PSW.MM.AudioDriver.Codec, 2019/11/19,
-         * add for setting different registers in voice */
         if (aw87339_voice_status > 0) {
             pr_info("%s: aw87339 return voice reg 0x%x 0x%x\n", __func__, reg, aw87339_kspk_cfg_voice[reg]);
             return aw87339_kspk_cfg_voice[reg];
@@ -302,8 +292,6 @@ unsigned char aw87339_rcvspk_reg_val(unsigned char reg, struct aw87339_t *aw8733
 }
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.Codec, 2019/10/17,
- * add for reduce aw87339 output voltage */
 
 void aw87339_audio_spk_low_voltage_status(int bStatus)
 {
@@ -326,8 +314,6 @@ void aw87339_audio_spk_low_voltage_status(int bStatus)
     return;
 }
 
-/* Yongzhi.Zhang@PSW.MM.AudioDriver.Codec, 2019/11/19,
- * add for setting different registers in voice */
 void aw87339_voice_setting(int bStatus)
 {
     aw87339_voice_status = bStatus;
@@ -357,8 +343,6 @@ unsigned char aw87339_audio_kspk(struct aw87339_t *aw87339)
     i2c_write_reg(aw87339_REG_SYSCTRL , aw87339_kspk_reg_val(aw87339_REG_SYSCTRL,aw87339 )&0xF7, aw87339);
     i2c_write_reg(aw87339_REG_MODECTRL, aw87339_kspk_reg_val(aw87339_REG_MODECTRL,aw87339), aw87339);
 #ifdef OPLUS_BUG_COMPATIBILITY
-    /* Yongzhi.Zhang@PSW.MM.AudioDriver.Codec, 2019/10/17,
-     * add for reduce aw87339 output voltage, reg 0x03 val 0x0 is 6.5V */
     if (aw87339_spk_low_voltage_status > 0) {
         i2c_write_reg(aw87339_REG_CPOVP, 0x00, aw87339);
     } else {
@@ -695,8 +679,6 @@ static void aw87339_kspk_cfg_loaded_spk(const struct firmware *cont, void *conte
     aw87339_spk->kspk_cfg_update_flag = 1;
 
 #ifndef OPLUS_BUG_COMPATIBILITY
-    /* Yongzhi.Zhang@PSW.MM.AudioDriver.Codec.2503932, 2019/10/17,
-     * remove for not requesting other firmware */
     ret = request_firmware_nowait(THIS_MODULE, FW_ACTION_HOTPLUG, aw87339_drcv_name_spk,
             &aw87339_spk->i2c_client->dev, GFP_KERNEL, NULL, aw87339_drcv_cfg_loaded_spk);
     if(ret) {
@@ -952,8 +934,6 @@ static int aw87339_cfg_init(struct aw87339_t *aw87339)
     int ret = -1;
 #ifdef AWINIC_CFG_UPDATE_DELAY
     #ifndef OPLUS_BUG_COMPATIBILITY
-    /*Zhao.Pan@MULTIMEDIA.AUDIODRIVER.AUDIOPARAM, 2020/05/26 *
-     * change delay time from 5000ms to 25000ms wait /odm mount*/
     int cfg_timer_val = 5000;
     #else
     int cfg_timer_val = 25000;
@@ -1271,7 +1251,6 @@ int aw87339_hw_reset(struct aw87339_t *aw87339)
     pr_info("%s enter\n", __func__);
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-    //Dongxu.Chen@Multimedia.AuidoDriver.Codec 2022/03/08 add for fix coverity
     if (aw87339 != NULL) {
 #endif
         if (gpio_is_valid(aw87339->reset_gpio)) {
@@ -1285,7 +1264,6 @@ int aw87339_hw_reset(struct aw87339_t *aw87339)
             dev_err(&aw87339->i2c_client->dev, "%s:  failed\n", __func__);
         }
 #ifdef OPLUS_BUG_COMPATIBILITY
-    //Dongxu.Chen@Multimedia.AuidoDriver.Codec 2022/03/08 add for fix coverity
     } else {
         pr_err("%s:  failed aw87339 is Null\n", __func__);
     }

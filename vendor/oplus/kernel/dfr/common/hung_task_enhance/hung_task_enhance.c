@@ -311,7 +311,6 @@ void io_block_panic(void *ignore, void *extra)
 	if (io_wait_count >= sysctl_hung_task_maxiowait_count) {
 		panic("hung_task:[%u]IO blocked too long time", io_wait_count);
        }
-	/* litaiyu@BSP.Stability 2022.09.05 Reset io_wait_count after checking  */
 	io_wait_count = 0;
 #endif
 	return;
@@ -370,7 +369,6 @@ void io_block_panic(unsigned int *iowait_count, unsigned int sys_mamxiowait_coun
 	if(*iowait_count >= sysctl_hung_task_maxiowait_count){
 		panic("hung_task:[%u]IO blocked too long time",*iowait_count);
        }
-	/* litaiyu@BSP.Stability 2022.09.05 Reset io_wait_count after checking  */
 	*iowait_count = 0;
 #endif
 	return;

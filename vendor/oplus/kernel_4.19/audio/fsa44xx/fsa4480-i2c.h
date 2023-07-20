@@ -22,7 +22,6 @@ int fsa4480_reg_notifier(struct notifier_block *nb,
 			 struct device_node *node);
 int fsa4480_unreg_notifier(struct notifier_block *nb,
 			   struct device_node *node);
-/*#Yongpei.Yao@MULTIMEDIA.AUDIODRIVER.CODEC, 2021/07/20, supporting dynamic sense to ground, fix leakage bug */
 extern int fsa4480_sense_to_ground(bool bstate);
 #else
 static inline int fsa4480_switch_event(struct device_node *node,

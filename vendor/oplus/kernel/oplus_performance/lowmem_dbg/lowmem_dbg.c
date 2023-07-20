@@ -476,8 +476,6 @@ static int dump_ion(bool verbose)
 	size_t total_size = 0;
 
 #ifdef OPLUS_FEATURE_MTK_ION_SEPARATE_LOCK
-/* Hailong.Liu@BSP.Kernel.MM, 2020-09-07, use two separate locks for heaps and
- * clients in ion_device */
 	if (!down_read_trylock(&dev->client_lock)) {
 #else /* OPLUS_FEATURE_MTK_ION_SEPARATE_LOCK */
 	if (!down_read_trylock(&dev->lock)) {
@@ -534,8 +532,6 @@ static int dump_ion(bool verbose)
 		total_orphaned_size, total_size);
 
 #ifdef OPLUS_FEATURE_MTK_ION_SEPARATE_LOCK
-/* Hailong.Liu@BSP.Kernel.MM, 2020-09-07, use two separate locks for heaps and
- * clients in ion_device */
 	up_read(&dev->client_lock);
 #else /* OPLUS_FEATURE_MTK_ION_SEPARATE_LOCK */
 	up_read(&dev->lock);

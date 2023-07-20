@@ -135,7 +135,6 @@ unsigned int get_project_oldcdt(void)
 		return 0;
 }
 
-/* xiang.fei@PSW.MM.AudioDriver.Machine, 2018/05/28, Add for kernel driver */
 EXPORT_SYMBOL(get_project_oldcdt);
 
 unsigned int is_project_oldcdt(int project )

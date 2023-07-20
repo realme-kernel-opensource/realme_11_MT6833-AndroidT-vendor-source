@@ -42,7 +42,6 @@
 #undef CONFIG_DEBUG_FS
 
 #ifdef OPLUS_BUG_COMPATIBILITY
-/* xiang.fei@MM.AudioDriver.Codec, 2018/03/12, add for codec */
 extern bool g_speaker_resistance_fail;
 extern int get_boot_mode(void);
 #endif /* OPLUS_BUG_COMPATIBILITY */
@@ -153,9 +152,6 @@ struct tfa98xx {
 	bool set_mtp_cal;
 	uint16_t cal_data;
 	#ifdef OPLUS_BUG_COMPATIBILITY
-	/* Jianfeng.Qiu@PSW.MM.AudioDriver.SmartPA,
-	 *2018/04/20, Add for resource
-	 */
 	struct regulator *tfa98xx_vdd;
 	#endif /* OPLUS_BUG_COMPATIBILITY */
 };

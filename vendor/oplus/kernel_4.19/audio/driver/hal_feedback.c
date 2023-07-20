@@ -8,7 +8,6 @@
 ** Version: 1.0
 ** --------------------------- Revision History: --------------------------------
 **               <author>                                <date>          <desc>
-** Zhao.Pan@MULTIMEDIA.AUDIODRIVER                  2020/10/10       Add this file
 **
 ************************************************************************************/
 #include <sound/control.h>
